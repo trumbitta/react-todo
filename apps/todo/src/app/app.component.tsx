@@ -27,10 +27,8 @@ export const App = () => {
     }
   ]);
 
-  const addTodo = (event: React.MouseEvent<HTMLButtonElement>, foo: any) => {
+  const addTodo = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-
-    console.log(foo);
 
     setTodos([
       ...todos,
