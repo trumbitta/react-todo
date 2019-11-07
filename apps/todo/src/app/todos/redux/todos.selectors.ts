@@ -4,36 +4,26 @@
 import { createSelector } from 'reselect';
 
 // Redux
-import { TodosState } from './todos.reducer';
 import { AppState } from '../../redux/app-state.interface';
+import { TodosState } from './todos.reducer';
 
 // App Models
 import { TodosMap, Todo } from '../todo.model';
 
 export const selectTodos = (state: AppState) => state.todosReducer;
 
-export const selectTodosCurrent = createSelector<
-  AppState,
-  TodosState,
-  TodosMap
->(
+export const selectTodosByIds = createSelector<AppState, TodosState, TodosMap>(
   [selectTodos],
-  state => state.current
+  state => state.byIds
 );
 
-export const selectTodosCurrentArray = createSelector<
-  AppState,
-  TodosMap,
-  Todo[]
->(
-  [selectTodosCurrent],
-  current => {
-    const todosArray: Todo[] = [];
-
-    for (const prop in current) {
-      todosArray.push(current[prop]);
-    }
-
-    return todosArray;
-  }
+export const selectTodosAllIds = createSelector<AppState, TodosState, number[]>(
+  [selectTodos],
+  state => state.allIds
 );
+
+export const makeSelectTodosTodoById = (id: number) =>
+  createSelector<AppState, TodosMap, Todo>(
+    [selectTodosByIds],
+    todos => todos[id]
+  );
