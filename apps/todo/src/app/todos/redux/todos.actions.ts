@@ -1,8 +1,7 @@
 /** @format */
 
+// Third Parties
 import { ActionCreator } from 'redux';
-
-/** @format */
 
 export enum todosActions {
   TOGGLE_TODO = '[Todos - TodoItem] Toggle todo'
