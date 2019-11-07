@@ -2,14 +2,18 @@
 
 import React, { FunctionComponent } from 'react';
 
-// App Models
-import { Todo } from '../todo.model';
+// Third Parties
+import { useSelector } from 'react-redux';
+
+// Redux
+import { makeSelectTodosTodoById } from '../redux/todos.selectors';
 
 export const TodoItem: FunctionComponent<TodoItemProps> = ({
-  todo,
+  id,
   onToggleIsDone
 }) => {
-  const toggleIsDone = () => onToggleIsDone(todo.id);
+  const todo = useSelector(makeSelectTodosTodoById(id));
+  const toggleIsDone = () => onToggleIsDone(id);
 
   return (
     <li onClick={toggleIsDone}>
@@ -19,6 +23,6 @@ export const TodoItem: FunctionComponent<TodoItemProps> = ({
 };
 
 interface TodoItemProps {
-  todo: Todo;
+  id: number;
   onToggleIsDone?: (id: number) => void;
 }

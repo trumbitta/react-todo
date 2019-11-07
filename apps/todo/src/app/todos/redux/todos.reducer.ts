@@ -5,14 +5,14 @@ import { TodosActionTypes, todosActions } from './todos.actions';
 
 // App Models
 import { TodosMap } from '../todo.model';
-import { ReducersMapObject } from 'redux';
 
 export interface TodosState {
-  current: TodosMap;
+  byIds: TodosMap;
+  allIds: number[];
 }
 
 const initialState: TodosState = {
-  current: {
+  byIds: {
     1: {
       id: 1,
       isDone: false,
@@ -33,7 +33,8 @@ const initialState: TodosState = {
       isDone: false,
       text: 'Stuff foo into bar'
     }
-  }
+  },
+  allIds: [1, 2, 3, 4]
 };
 
 export function todosReducer(
@@ -44,11 +45,11 @@ export function todosReducer(
     case todosActions.TOGGLE_TODO:
       return {
         ...state,
-        current: {
-          ...state.current,
+        byIds: {
+          ...state.byIds,
           [action.payload]: {
-            ...state.current[action.payload],
-            isDone: !state.current[action.payload].isDone
+            ...state.byIds[action.payload],
+            isDone: !state.byIds[action.payload].isDone
           }
         }
       };
