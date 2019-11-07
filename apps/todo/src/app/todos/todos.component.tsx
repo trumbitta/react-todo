@@ -2,11 +2,17 @@
 
 import React, { FunctionComponent } from 'react';
 
+// Third Parties
+import { useDispatch } from 'react-redux';
+
+// Redux
+import { todoActionCreators } from './redux/todos.actions';
+
 // App Models
 import { Todo } from './todo.model';
+
+// App Components
 import { TodoItem } from './todo-item/todo-item.component';
-import { useDispatch } from 'react-redux';
-import { todoActionCreators } from './redux/todos.actions';
 
 export const Todos: FunctionComponent<TodosProps> = ({ todos, onAddTodo }) => {
   const dispatch = useDispatch();
