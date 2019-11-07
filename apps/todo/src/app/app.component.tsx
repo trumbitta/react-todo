@@ -1,39 +1,24 @@
-import React, { useState } from 'react';
+/** @format */
 
+import React from 'react';
+
+// Third Parties
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+
+// Redux
+import { selectTodosCurrentArray } from './todos/redux/todos.selectors';
 
 // App Components
 import { Todos } from './todos/todos.component';
 
-// App Models
-import { Todo } from './todos/todo.model';
-
 export const App = () => {
-  const [todos, setTodos] = useState<Todo[]>([
-    {
-      id: 1,
-      isDone: false,
-      text: 'Add foo'
-    },
-    {
-      id: 2,
-      isDone: false,
-      text: 'Call bar'
-    },
-    {
-      id: 3,
-      isDone: false,
-      text: 'Drink baz'
-    }
-  ]);
+  const todos = useSelector(selectTodosCurrentArray);
 
   const addTodo = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    setTodos([
-      ...todos,
-      { id: todos[todos.length - 1].id + 1, isDone: false, text: 'Foo bar baz' }
-    ]);
+    console.log('Adding todo');
   };
 
   return (
