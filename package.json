@@ -53,7 +53,9 @@
     "@types/styled-components": "4.1.19",
     "@typescript-eslint/eslint-plugin": "2.3.2",
     "@typescript-eslint/parser": "2.3.2",
+    "commitizen": "^4.0.3",
     "cypress": "3.4.1",
+    "cz-conventional-changelog": "^3.0.2",
     "dotenv": "6.2.0",
     "eslint": "6.1.0",
     "eslint-config-prettier": "6.0.0",
@@ -67,5 +69,10 @@
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
     "typescript": "~3.4.5"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
