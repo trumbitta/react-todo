@@ -7,31 +7,42 @@ import { ActionCreator } from 'redux';
 import { Todo } from '../todo.model';
 
 export enum TodosActions {
-  TodosToggleTodo = '[Todos - TodoItem Component] Toggle todo',
-  TodosAddTodo = '[Todos - Todos Component] Add todo'
+  ToggleTodo = '[Todos - TodoItem Component] Toggle todo',
+  AddTodo = '[Todos - Todos Component] Add todo',
+  DeleteTodo = '[Todos - Todos Component] Delete todo'
 }
 
 export interface ToggleTodo {
-  type: TodosActions;
+  type: TodosActions.ToggleTodo;
   payload: string;
 }
 
 export interface AddTodo {
-  type: TodosActions;
+  type: TodosActions.AddTodo;
   payload: Todo;
 }
 
-export type TodosActionTypes = ToggleTodo | AddTodo;
+export interface DeleteTodo {
+  type: TodosActions.DeleteTodo;
+  payload: string;
+}
 
+export type TodosActionTypes = ToggleTodo | AddTodo | DeleteTodo;
+
+type actionCreatorKeys = 'toggleTodo' | 'addTodo' | 'deleteTodo';
 export const todoActionCreators: {
-  [key: string]: ActionCreator<TodosActionTypes>;
+  [K in actionCreatorKeys]: ActionCreator<TodosActionTypes>;
 } = {
   toggleTodo: (id: string) => ({
-    type: TodosActions.TodosToggleTodo,
+    type: TodosActions.ToggleTodo,
     payload: id
   }),
   addTodo: (todo: Todo) => ({
-    type: TodosActions.TodosAddTodo,
+    type: TodosActions.AddTodo,
     payload: todo
+  }),
+  deleteTodo: (id: string) => ({
+    type: TodosActions.DeleteTodo,
+    payload: id
   })
 };

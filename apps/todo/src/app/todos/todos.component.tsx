@@ -32,11 +32,18 @@ export const Todos: FunctionComponent = () => {
     setSubmitting(false);
   };
 
+  const dispatchDeleteTodo = (id: string) =>
+    dispatch(todoActionCreators.deleteTodo(id));
+
   return (
     <ul>
       {todosIds.map(id => (
         <li key={id}>
-          <TodoItem id={id} onToggleIsDone={dispatchToggleTodo} />
+          <TodoItem
+            id={id}
+            onToggleIsDone={dispatchToggleTodo}
+            onDeleteTodo={dispatchDeleteTodo}
+          />
         </li>
       ))}
       <li>

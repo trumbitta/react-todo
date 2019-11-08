@@ -47,21 +47,21 @@ export function todosReducer(
   action: TodosActionTypes
 ): TodosState {
   switch (action.type) {
-    case TodosActions.TodosToggleTodo:
-      const id = action.payload as string;
+    case TodosActions.ToggleTodo:
+      const idToAdd = action.payload;
       return {
         ...state,
         byIds: {
           ...state.byIds,
-          [id]: {
-            ...state.byIds[id],
-            isDone: !state.byIds[id].isDone
+          [idToAdd]: {
+            ...state.byIds[idToAdd],
+            isDone: !state.byIds[idToAdd].isDone
           }
         }
       };
 
-    case TodosActions.TodosAddTodo:
-      const todo = action.payload as Todo;
+    case TodosActions.AddTodo:
+      const todo = action.payload;
       const newId = getNewTodoId();
 
       return {
@@ -75,6 +75,18 @@ export function todosReducer(
           }
         },
         allIds: [...state.allIds, newId]
+      };
+
+    case TodosActions.DeleteTodo:
+      const idToDelete = action.payload;
+
+      return {
+        ...state,
+        byIds: {
+          ...state.byIds,
+          [idToDelete]: undefined
+        },
+        allIds: state.allIds.filter(id => id !== idToDelete)
       };
 
     default:
