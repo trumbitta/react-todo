@@ -1,11 +1,11 @@
 /** @format */
 
 export interface Todo {
-  id?: number;
+  id?: string;
   text: string;
   isDone?: boolean;
 }
 
 export interface TodosMap {
-  [id: number]: Todo;
+  [id: string]: Todo;
 }

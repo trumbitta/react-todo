@@ -1,5 +1,8 @@
 /** @format */
 
+// Third Parties
+import * as uuid from 'uuid';
+
 // Redux
 import { TodosActionTypes, TodosActions } from './todos.actions';
 
@@ -8,33 +11,35 @@ import { TodosMap, Todo } from '../todo.model';
 
 export interface TodosState {
   byIds: TodosMap;
-  allIds: number[];
+  allIds: string[];
 }
+
+const allIds: string[] = [uuid(), uuid(), uuid(), uuid()];
 
 const initialState: TodosState = {
   byIds: {
-    1: {
-      id: 1,
+    [allIds[0]]: {
+      id: allIds[0],
       isDone: false,
       text: 'Add foo'
     },
-    2: {
-      id: 2,
+    [allIds[1]]: {
+      id: allIds[1],
       isDone: false,
       text: 'Call bar'
     },
-    3: {
-      id: 3,
+    [allIds[2]]: {
+      id: allIds[2],
       isDone: false,
       text: 'Drink baz'
     },
-    4: {
-      id: 4,
+    [allIds[3]]: {
+      id: allIds[3],
       isDone: false,
       text: 'Stuff foo into bar'
     }
   },
-  allIds: [1, 2, 3, 4]
+  allIds: allIds
 };
 
 export function todosReducer(
@@ -43,7 +48,7 @@ export function todosReducer(
 ): TodosState {
   switch (action.type) {
     case TodosActions.TodosToggleTodo:
-      const id = action.payload as number;
+      const id = action.payload as string;
       return {
         ...state,
         byIds: {
@@ -77,7 +82,7 @@ export function todosReducer(
   }
 
   // TODO: generate random uuids instead of incremental integers
-  function getNewTodoId(): number {
-    return state.allIds[state.allIds.length - 1] + 1;
+  function getNewTodoId(): string {
+    return uuid();
   }
 }
