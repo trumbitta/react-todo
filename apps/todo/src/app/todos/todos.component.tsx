@@ -20,7 +20,7 @@ export const Todos: FunctionComponent = () => {
   const todosIds = useSelector(selectTodosAllIds);
 
   const dispatch = useDispatch();
-  const dispatchToggleTodo = (id: number) =>
+  const dispatchToggleTodo = (id: string) =>
     dispatch(todoActionCreators.toggleTodo(id));
 
   const dispatchAddTodo: FormikSubmitProps<Todo> = (

@@ -17,12 +17,12 @@ export const selectTodosByIds = createSelector<AppState, TodosState, TodosMap>(
   state => state.byIds
 );
 
-export const selectTodosAllIds = createSelector<AppState, TodosState, number[]>(
+export const selectTodosAllIds = createSelector<AppState, TodosState, string[]>(
   [selectTodos],
   state => state.allIds
 );
 
-export const makeSelectTodosTodoById = (id: number) =>
+export const makeSelectTodosTodoById = (id: string) =>
   createSelector<AppState, TodosMap, Todo>(
     [selectTodosByIds],
     todos => todos[id]

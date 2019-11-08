@@ -13,7 +13,7 @@ export enum TodosActions {
 
 export interface ToggleTodo {
   type: TodosActions;
-  payload: number;
+  payload: string;
 }
 
 export interface AddTodo {
@@ -26,7 +26,7 @@ export type TodosActionTypes = ToggleTodo | AddTodo;
 export const todoActionCreators: {
   [key: string]: ActionCreator<TodosActionTypes>;
 } = {
-  toggleTodo: (id: number) => ({
+  toggleTodo: (id: string) => ({
     type: TodosActions.TodosToggleTodo,
     payload: id
   }),

@@ -17,12 +17,12 @@ export const TodoItem: FunctionComponent<TodoItemProps> = ({
 
   return (
     <span onClick={toggleIsDone}>
-      [{todo.isDone ? 'x' : ' '}] {todo.id} • {todo.text}
+      [{todo.isDone ? 'x' : ' '}] <code>{todo.id}</code> • {todo.text}
     </span>
   );
 };
 
 interface TodoItemProps {
-  id: number;
-  onToggleIsDone?: (id: number) => void;
+  id: string;
+  onToggleIsDone?: (id: string) => void;
 }
