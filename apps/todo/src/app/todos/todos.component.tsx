@@ -10,6 +10,7 @@ import { todoActionCreators } from './redux/todos.actions';
 import { selectTodosAllIds } from './redux/todos.selectors';
 
 // App Components
+import { TodosActionBar } from './todos-action-bar/todos-action-bar.component';
 import { TodoAdd, FormikSubmitProps } from './todo-add/todo-add.component';
 import { TodoItem } from './todo-item/todo-item.component';
 
@@ -35,20 +36,26 @@ export const Todos: FunctionComponent = () => {
   const dispatchDeleteTodo = (id: string) =>
     dispatch(todoActionCreators.deleteTodo(id));
 
+  const dispatchToggleAll = () => dispatch(todoActionCreators.toggleAll());
+
   return (
-    <ul>
-      {todosIds.map(id => (
-        <li key={id}>
-          <TodoItem
-            id={id}
-            onToggleIsDone={dispatchToggleTodo}
-            onDeleteTodo={dispatchDeleteTodo}
-          />
+    <section>
+      <TodosActionBar onToggleAll={dispatchToggleAll} />
+
+      <ul>
+        {todosIds.map(id => (
+          <li key={id}>
+            <TodoItem
+              id={id}
+              onToggleIsDone={dispatchToggleTodo}
+              onDeleteTodo={dispatchDeleteTodo}
+            />
+          </li>
+        ))}
+        <li>
+          <TodoAdd onAddTodo={dispatchAddTodo} />
         </li>
-      ))}
-      <li>
-        <TodoAdd onAddTodo={dispatchAddTodo} />
-      </li>
-    </ul>
+      </ul>
+    </section>
   );
 };
