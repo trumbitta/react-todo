@@ -1,9 +1,9 @@
 /** @format */
 
 export interface Todo {
-  id: number;
+  id?: number;
   text: string;
-  isDone: boolean;
+  isDone?: boolean;
 }
 
 export interface TodosMap {

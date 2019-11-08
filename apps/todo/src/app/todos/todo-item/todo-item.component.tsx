@@ -16,9 +16,9 @@ export const TodoItem: FunctionComponent<TodoItemProps> = ({
   const toggleIsDone = () => onToggleIsDone(id);
 
   return (
-    <li onClick={toggleIsDone}>
+    <span onClick={toggleIsDone}>
       [{todo.isDone ? 'x' : ' '}] {todo.id} • {todo.text}
-    </li>
+    </span>
   );
 };
 
