@@ -14,13 +14,13 @@ export const TodoItem: FunctionComponent<TodoItemProps> = ({
   onDeleteTodo
 }) => {
   const todo = useSelector(makeSelectTodosTodoById(id));
-  const toggleIsDone = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const toggleIsDone = (event: React.MouseEvent<HTMLSpanElement>) => {
     event.preventDefault();
 
     onToggleIsDone(id);
   };
 
-  const handleOnClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const deleteTodo = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -30,7 +30,9 @@ export const TodoItem: FunctionComponent<TodoItemProps> = ({
   return (
     <span onClick={toggleIsDone}>
       [{todo.isDone ? 'x' : ' '}] <code>{id}</code> • {todo.text}{' '}
-      <button onClick={handleOnClick}></button>
+      <button type="button" onClick={deleteTodo}>
+        Delete
+      </button>
     </span>
   );
 };
