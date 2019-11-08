@@ -1,10 +1,10 @@
 /** @format */
 
 // Redux
-import { TodosActionTypes, todosActions } from './todos.actions';
+import { TodosActionTypes, TodosActions } from './todos.actions';
 
 // App Models
-import { TodosMap } from '../todo.model';
+import { TodosMap, Todo } from '../todo.model';
 
 export interface TodosState {
   byIds: TodosMap;
@@ -42,19 +42,42 @@ export function todosReducer(
   action: TodosActionTypes
 ): TodosState {
   switch (action.type) {
-    case todosActions.TOGGLE_TODO:
+    case TodosActions.TodosToggleTodo:
+      const id = action.payload as number;
       return {
         ...state,
         byIds: {
           ...state.byIds,
-          [action.payload]: {
-            ...state.byIds[action.payload],
-            isDone: !state.byIds[action.payload].isDone
+          [id]: {
+            ...state.byIds[id],
+            isDone: !state.byIds[id].isDone
           }
         }
       };
 
+    case TodosActions.TodosAddTodo:
+      const todo = action.payload as Todo;
+      const newId = getNewTodoId();
+
+      return {
+        ...state,
+        byIds: {
+          ...state.byIds,
+          [newId]: {
+            id: newId,
+            isDone: false,
+            text: todo.text
+          }
+        },
+        allIds: [...state.allIds, newId]
+      };
+
     default:
       return state;
+  }
+
+  // TODO: generate random uuids instead of incremental integers
+  function getNewTodoId(): number {
+    return state.allIds[state.allIds.length - 1] + 1;
   }
 }
