@@ -60,6 +60,23 @@ export function todosReducer(
         }
       };
 
+    case TodosActions.ToggleAll:
+      return {
+        ...state,
+        byIds: state.allIds.reduce(
+          (byIds, id) => {
+            byIds[id] = {
+              id,
+              isDone: !state.byIds[id].isDone,
+              text: state.byIds[id].text
+            };
+
+            return byIds;
+          },
+          {} as TodosMap
+        )
+      };
+
     case TodosActions.AddTodo:
       const todo = action.payload;
       const newId = getNewTodoId();
