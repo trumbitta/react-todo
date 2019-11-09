@@ -2,16 +2,11 @@
 
 // Third Parties
 import { combineReducers } from 'redux';
-import { createStore } from 'redux';
-import { devToolsEnhancer } from 'redux-devtools-extension/logOnlyInProduction';
+import { configureStore } from 'redux-starter-kit';
 
 // Redux
-import { todosReducer } from '../todos/redux/todos.reducer';
-import { todoActionCreators } from '../todos/redux/todos.actions';
+import { todosReducer, todosFeatureName } from '../todos/redux/todos.slice';
 
-const rootReducer = combineReducers({ todosReducer });
+const rootReducer = combineReducers({ [todosFeatureName]: todosReducer });
 
-export const store = createStore(
-  rootReducer,
-  devToolsEnhancer({ actionCreators: todoActionCreators })
-);
+export const store = configureStore({ reducer: rootReducer });

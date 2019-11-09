@@ -1,20 +1,23 @@
 /** @format */
 
 // Third Parties
+import { createSlice } from 'redux-starter-kit';
 import * as uuid from 'uuid';
 
-// Redux
-import { TodosActionTypes, TodosActions } from './todos.actions';
-
 // App Models
-import { TodosMap, Todo } from '../todo.model';
+import { TodosMap } from '../todo.model';
 
 export interface TodosState {
   byIds: TodosMap;
   allIds: string[];
 }
 
-const allIds: string[] = [uuid(), uuid(), uuid(), uuid()];
+const allIds: string[] = [
+  getNewTodoId(),
+  getNewTodoId(),
+  getNewTodoId(),
+  getNewTodoId()
+];
 
 const initialState: TodosState = {
   byIds: {
@@ -42,25 +45,26 @@ const initialState: TodosState = {
   allIds: allIds
 };
 
-export function todosReducer(
-  state = initialState,
-  action: TodosActionTypes
-): TodosState {
-  switch (action.type) {
-    case TodosActions.ToggleTodo:
-      const idToAdd = action.payload;
+const todosSlice = createSlice({
+  name: 'todos',
+  initialState,
+  reducers: {
+    toggleTodo(state, action) {
+      const id = action.payload;
+
       return {
         ...state,
         byIds: {
           ...state.byIds,
-          [idToAdd]: {
-            ...state.byIds[idToAdd],
-            isDone: !state.byIds[idToAdd].isDone
+          [id]: {
+            ...state.byIds[id],
+            isDone: !state.byIds[id].isDone
           }
         }
       };
+    },
 
-    case TodosActions.ToggleAll:
+    toggleAll(state) {
       return {
         ...state,
         byIds: state.allIds.reduce(
@@ -76,8 +80,9 @@ export function todosReducer(
           {} as TodosMap
         )
       };
+    },
 
-    case TodosActions.AddTodo:
+    addTodo(state, action) {
       const todo = action.payload;
       const newId = getNewTodoId();
 
@@ -93,25 +98,31 @@ export function todosReducer(
         },
         allIds: [...state.allIds, newId]
       };
+    },
 
-    case TodosActions.DeleteTodo:
-      const idToDelete = action.payload;
+    deleteTodo(state, action) {
+      const id = action.payload;
 
       return {
         ...state,
         byIds: {
           ...state.byIds,
-          [idToDelete]: undefined
+          [id]: undefined
         },
-        allIds: state.allIds.filter(id => id !== idToDelete)
+        allIds: state.allIds.filter(itemId => itemId !== id)
       };
-
-    default:
-      return state;
+    }
   }
+});
 
-  // TODO: generate random uuids instead of incremental integers
-  function getNewTodoId(): string {
-    return uuid();
-  }
+function getNewTodoId(): string {
+  return uuid();
 }
+
+export const {
+  addTodo,
+  deleteTodo,
+  toggleAll,
+  toggleTodo
+} = todosSlice.actions;
+export const { reducer: todosReducer, name: todosFeatureName } = todosSlice;

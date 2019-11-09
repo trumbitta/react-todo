@@ -1,16 +1,16 @@
 /** @format */
 
 // Third Parties
-import { createSelector } from 'reselect';
+import { createSelector } from 'redux-starter-kit';
 
 // Redux
 import { AppState } from '../../redux/app-state.interface';
-import { TodosState } from './todos.reducer';
+import { TodosState } from './todos.slice';
 
 // App Models
 import { TodosMap, Todo } from '../todo.model';
 
-export const selectTodos = (state: AppState) => state.todosReducer;
+export const selectTodos = (state: AppState) => state.todos;
 
 export const selectTodosByIds = createSelector<AppState, TodosState, TodosMap>(
   [selectTodos],

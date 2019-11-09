@@ -1,8 +1,10 @@
 /** @format */
 
 // Redux
-import { TodosState } from '../todos/redux/todos.reducer';
+import { TodosState } from '../todos/redux/todos.slice';
+import { todosFeatureName } from '../todos/redux/todos.slice';
 
+// TODO: make it work by using todosFeatureName
 export interface AppState {
-  todosReducer: TodosState;
+  todos: TodosState;
 }
