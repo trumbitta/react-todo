@@ -8,5 +8,6 @@ import { configureStore } from 'redux-starter-kit';
 import { todosReducer, todosFeatureName } from '../todos/redux/todos.slice';
 
 const rootReducer = combineReducers({ [todosFeatureName]: todosReducer });
+export type AppState = ReturnType<typeof rootReducer>;
 
 export const store = configureStore({ reducer: rootReducer });

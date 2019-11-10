@@ -4,7 +4,7 @@
 import { createSelector } from 'redux-starter-kit';
 
 // Redux
-import { AppState } from '../../redux/app-state.interface';
+import { AppState } from '../../redux/store';
 import { TodosState } from './todos.slice';
 
 // App Models

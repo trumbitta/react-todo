@@ -1,11 +1,11 @@
 /** @format */
 
 // Third Parties
-import { createSlice } from 'redux-starter-kit';
+import { createSlice, PayloadAction } from 'redux-starter-kit';
 import * as uuid from 'uuid';
 
 // App Models
-import { TodosMap } from '../todo.model';
+import { TodosMap, Todo } from '../todo.model';
 
 export interface TodosState {
   byIds: TodosMap;
@@ -49,7 +49,7 @@ const todosSlice = createSlice({
   name: 'todos',
   initialState,
   reducers: {
-    toggleTodo(state, action) {
+    toggleTodo(state, action: PayloadAction<string>) {
       const id = action.payload;
 
       return {
@@ -82,7 +82,7 @@ const todosSlice = createSlice({
       };
     },
 
-    addTodo(state, action) {
+    addTodo(state, action: PayloadAction<Todo>) {
       const todo = action.payload;
       const newId = getNewTodoId();
 
@@ -100,7 +100,7 @@ const todosSlice = createSlice({
       };
     },
 
-    deleteTodo(state, action) {
+    deleteTodo(state, action: PayloadAction<string>) {
       const id = action.payload;
 
       return {
