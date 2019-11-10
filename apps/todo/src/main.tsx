@@ -12,9 +12,12 @@ import { store } from './app/redux/store';
 // App Components
 import App from './app/app.component';
 
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root')
-);
+const render = () =>
+  ReactDOM.render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+    document.getElementById('root')
+  );
+
+render();

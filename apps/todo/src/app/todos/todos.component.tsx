@@ -6,8 +6,13 @@ import React, { FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Redux
-import { todoActionCreators } from './redux/todos.actions';
 import { selectTodosAllIds } from './redux/todos.selectors';
+import {
+  toggleTodo,
+  addTodo,
+  deleteTodo,
+  toggleAll
+} from './redux/todos.slice';
 
 // App Components
 import { TodosActionBar } from './todos-action-bar/todos-action-bar.component';
@@ -21,22 +26,20 @@ export const Todos: FunctionComponent = () => {
   const todosIds = useSelector(selectTodosAllIds);
 
   const dispatch = useDispatch();
-  const dispatchToggleTodo = (id: string) =>
-    dispatch(todoActionCreators.toggleTodo(id));
+  const dispatchToggleTodo = (id: string) => dispatch(toggleTodo(id));
 
   const dispatchAddTodo: FormikSubmitProps<Todo> = (
     todo: Todo,
     { setSubmitting }
   ) => {
-    dispatch(todoActionCreators.addTodo(todo));
+    dispatch(addTodo(todo));
 
     setSubmitting(false);
   };
 
-  const dispatchDeleteTodo = (id: string) =>
-    dispatch(todoActionCreators.deleteTodo(id));
+  const dispatchDeleteTodo = (id: string) => dispatch(deleteTodo(id));
 
-  const dispatchToggleAll = () => dispatch(todoActionCreators.toggleAll());
+  const dispatchToggleAll = () => dispatch(toggleAll());
 
   return (
     <section>
