@@ -22,6 +22,16 @@ export const selectTodosAllIds = createSelector<AppState, TodosState, string[]>(
   state => state.allIds
 );
 
+export const selectTodosByIdsAsArray = createSelector<
+  AppState,
+  TodosMap,
+  string[],
+  Todo[]
+>(
+  [selectTodosByIds, selectTodosAllIds],
+  (byIds, allIds) => allIds.map(id => byIds[id])
+);
+
 export const makeSelectTodosTodoById = (id: string) =>
   createSelector<AppState, TodosMap, Todo>(
     [selectTodosByIds],

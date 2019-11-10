@@ -2,43 +2,37 @@
 
 import React, { FunctionComponent } from 'react';
 
-// Third Parties
-import { useSelector } from 'react-redux';
+// App Models
+import { Todo } from '../todo.model';
 
-// Redux
-import { makeSelectTodosTodoById } from '../redux/todos.selectors';
+export const TodoItem: FunctionComponent<TodoItemProps> = React.memo(
+  ({ todo, onToggleIsDone, onDeleteTodo }) => {
+    const toggleIsDone = (event: React.MouseEvent<HTMLSpanElement>) => {
+      event.preventDefault();
 
-export const TodoItem: FunctionComponent<TodoItemProps> = ({
-  id,
-  onToggleIsDone,
-  onDeleteTodo
-}) => {
-  const todo = useSelector(makeSelectTodosTodoById(id));
-  const toggleIsDone = (event: React.MouseEvent<HTMLSpanElement>) => {
-    event.preventDefault();
+      onToggleIsDone(todo.id);
+    };
 
-    onToggleIsDone(id);
-  };
+    const deleteTodo = (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.preventDefault();
+      event.stopPropagation();
 
-  const deleteTodo = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    event.stopPropagation();
+      onDeleteTodo(todo.id);
+    };
 
-    onDeleteTodo(id);
-  };
-
-  return (
-    <span onClick={toggleIsDone}>
-      [{todo.isDone ? 'x' : ' '}] <code>{id}</code> • {todo.text}{' '}
-      <button type="button" onClick={deleteTodo}>
-        Delete
-      </button>
-    </span>
-  );
-};
+    return (
+      <span onClick={toggleIsDone}>
+        [{todo.isDone ? 'x' : ' '}] <code>{todo.id}</code> • {todo.text}{' '}
+        <button type="button" onClick={deleteTodo}>
+          Delete
+        </button>
+      </span>
+    );
+  }
+);
 
 interface TodoItemProps {
-  id: string;
+  todo: Todo;
   onToggleIsDone: (id: string) => void;
   onDeleteTodo: (id: string) => void;
 }
