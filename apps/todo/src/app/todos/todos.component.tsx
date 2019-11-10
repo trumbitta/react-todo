@@ -6,7 +6,7 @@ import React, { FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Redux
-import { selectTodosAllIds } from './redux/todos.selectors';
+import { selectTodosAllIds, selectTodosByIds } from './redux/todos.selectors';
 import {
   toggleTodo,
   addTodo,
@@ -24,6 +24,7 @@ import { Todo } from './todo.model';
 
 export const Todos: FunctionComponent = () => {
   const todosIds = useSelector(selectTodosAllIds);
+  const todosMap = useSelector(selectTodosByIds);
 
   const dispatch = useDispatch();
   const dispatchToggleTodo = (id: string) => dispatch(toggleTodo(id));
@@ -46,15 +47,17 @@ export const Todos: FunctionComponent = () => {
       <TodosActionBar onToggleAll={dispatchToggleAll} />
 
       <ul>
-        {todosIds.map(id => (
-          <li key={id}>
-            <TodoItem
-              id={id}
-              onToggleIsDone={dispatchToggleTodo}
-              onDeleteTodo={dispatchDeleteTodo}
-            />
-          </li>
-        ))}
+        {todosIds
+          .map(id => todosMap[id])
+          .map(todo => (
+            <li key={todo.id}>
+              <TodoItem
+                todo={todo}
+                onToggleIsDone={dispatchToggleTodo}
+                onDeleteTodo={dispatchDeleteTodo}
+              />
+            </li>
+          ))}
         <li>
           <TodoAdd onAddTodo={dispatchAddTodo} />
         </li>
