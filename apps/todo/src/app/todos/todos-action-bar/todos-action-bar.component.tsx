@@ -2,7 +2,7 @@
 
 import React, { FunctionComponent } from 'react';
 
-export const TodosActionBar: FunctionComponent<TodosActionBarProps> = ({
+const TodosActionBar_: FunctionComponent<TodosActionBarProps> = ({
   onToggleAll
 }) => {
   const toggleAll = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -24,3 +24,5 @@ export const TodosActionBar: FunctionComponent<TodosActionBarProps> = ({
 interface TodosActionBarProps {
   onToggleAll: () => void;
 }
+
+export const TodosActionBar = React.memo(TodosActionBar_);
