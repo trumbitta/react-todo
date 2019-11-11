@@ -4,8 +4,8 @@
 import { createSlice, PayloadAction } from 'redux-starter-kit';
 import * as uuid from 'uuid';
 
-// App Models
-import { TodosMap, Todo } from '../todo.model';
+// App Libraries
+import { Todo, TodosMap } from '@todo/shared-models';
 
 export interface TodosState {
   byIds: TodosMap;

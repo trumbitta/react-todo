@@ -5,23 +5,21 @@ import React, { FunctionComponent } from 'react';
 // Third Parties
 import { Formik, Field, Form, FormikHelpers } from 'formik';
 
-// App Models
-import { Todo } from '../todo.model';
+// App Libraries
+import { Todo } from '@todo/shared-models';
 
-export const TodoAdd: FunctionComponent<TodoAddProps> = React.memo(
-  ({ onAddTodo }) => {
-    const initialValues: Todo = { text: '' };
+const TodoAdd_: FunctionComponent<TodoAddProps> = ({ onAddTodo }) => {
+  const initialValues: Todo = { text: '' };
 
-    return (
-      <Formik initialValues={initialValues} onSubmit={onAddTodo}>
-        <Form>
-          <Field name="text" type="text" />
-          <button type="submit">+ Add todo</button>
-        </Form>
-      </Formik>
-    );
-  }
-);
+  return (
+    <Formik initialValues={initialValues} onSubmit={onAddTodo}>
+      <Form>
+        <Field name="text" type="text" />
+        <button type="submit">+ Add todo</button>
+      </Form>
+    </Formik>
+  );
+};
 
 export type FormikSubmitProps<T> = (
   values: T,
@@ -31,3 +29,5 @@ export type FormikSubmitProps<T> = (
 interface TodoAddProps {
   onAddTodo: FormikSubmitProps<Todo>;
 }
+
+export const TodoAdd = React.memo(TodoAdd_);

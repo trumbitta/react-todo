@@ -19,8 +19,8 @@ import { TodosActionBar } from './todos-action-bar/todos-action-bar.component';
 import { TodoAdd, FormikSubmitProps } from './todo-add/todo-add.component';
 import { TodoItem } from './todo-item/todo-item.component';
 
-// App Models
-import { Todo } from './todo.model';
+// App Libraries
+import { Todo } from '@todo/shared-models';
 
 export const Todos: FunctionComponent = () => {
   const todos = useSelector(selectTodosByIdsAsArray);
