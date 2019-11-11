@@ -5,7 +5,3 @@ export interface Todo {
   text: string;
   isDone?: boolean;
 }
-
-export interface TodosMap {
-  [id: string]: Todo;
-}

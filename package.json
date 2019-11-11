@@ -34,14 +34,22 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-starter-kit": "^1.0.1",
     "styled-components": "4.4.0",
-    "uuid": "^3.3.3"
+    "uuid": "^3.3.3",
+    "@nestjs/common": "^6.8.3",
+    "@nestjs/core": "^6.8.3",
+    "@nestjs/platform-express": "^6.8.3",
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@babel/preset-react": "7.0.0",
+    "@nestjs/schematics": "^6.7.0",
+    "@nestjs/testing": "^6.8.3",
     "@nrwl/cli": "^8.7.0",
     "@nrwl/cypress": "8.7.0",
     "@nrwl/eslint-plugin-nx": "8.7.0",
     "@nrwl/jest": "8.7.0",
+    "@nrwl/nest": "^8.7.0",
+    "@nrwl/node": "8.7.0",
     "@nrwl/react": "8.7.0",
     "@nrwl/web": "8.7.0",
     "@nrwl/workspace": "8.7.0",
