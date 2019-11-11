@@ -25,6 +25,11 @@
       "tags": [
         "shared"
       ]
+    },
+    "utils": {
+      "tags": [
+        "utils"
+      ]
     }
   }
 }

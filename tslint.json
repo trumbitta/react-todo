@@ -14,12 +14,7 @@
     "member-ordering": [
       true,
       {
-        "order": [
-          "static-field",
-          "instance-field",
-          "static-method",
-          "instance-method"
-        ]
+        "order": ["static-field", "instance-field", "static-method", "instance-method"]
       }
     ],
     "no-arg": true,
@@ -53,9 +48,9 @@
       {
         "allow": [],
         "depConstraints": [
-          { "sourceTag": "shared", "onlyDependOnLibsWithTags": ["shared"] }
-          { "sourceTag": "backend", "onlyDependOnLibsWithTags": ["shared", "backend"] }
-          { "sourceTag": "frontend", "onlyDependOnLibsWithTags": ["shared", "frontend"] }
+          { "sourceTag": "shared", "onlyDependOnLibsWithTags": ["shared"] },
+          { "sourceTag": "backend", "onlyDependOnLibsWithTags": ["shared", "backend"] },
+          { "sourceTag": "frontend", "onlyDependOnLibsWithTags": ["shared", "frontend", "utils"] }
         ]
       }
     ]

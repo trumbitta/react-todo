@@ -12,7 +12,7 @@ import { TodosService } from './todos.service';
 export class TodosController {
   constructor(private readonly todosService: TodosService) {}
 
-  @Get('todos')
+  @Get('v1/todos')
   getData(): TodosMap {
     return this.todosService.getTodos();
   }

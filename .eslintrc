@@ -23,7 +23,9 @@
       {
         "allow": [],
         "depConstraints": [
-          { "sourceTag": "*", "onlyDependOnLibsWithTags": ["*"] }
+          { "sourceTag": "shared", "onlyDependOnLibsWithTags": ["shared"] },
+          { "sourceTag": "backend", "onlyDependOnLibsWithTags": ["shared", "backend"] },
+          { "sourceTag": "frontend", "onlyDependOnLibsWithTags": ["shared", "frontend", "utils"] }
         ]
       }
     ]
