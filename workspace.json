@@ -61,10 +61,7 @@
           "options": {
             "linter": "eslint",
             "config": "apps/todo/.eslintrc",
-            "tsConfig": [
-              "apps/todo/tsconfig.app.json",
-              "apps/todo/tsconfig.spec.json"
-            ],
+            "tsConfig": ["apps/todo/tsconfig.app.json", "apps/todo/tsconfig.spec.json"],
             "exclude": ["**/node_modules/**", "!apps/todo/**"]
           }
         },
@@ -146,10 +143,7 @@
           "options": {
             "linter": "eslint",
             "config": "apps/api/.eslintrc",
-            "tsConfig": [
-              "apps/api/tsconfig.app.json",
-              "apps/api/tsconfig.spec.json"
-            ],
+            "tsConfig": ["apps/api/tsconfig.app.json", "apps/api/tsconfig.spec.json"],
             "exclude": ["**/node_modules/**", "!apps/api/**"]
           }
         },
@@ -183,6 +177,30 @@
           "options": {
             "jestConfig": "libs/shared-models/jest.config.js",
             "tsConfig": "libs/shared-models/tsconfig.spec.json"
+          }
+        }
+      }
+    },
+    "utils": {
+      "root": "libs/utils",
+      "sourceRoot": "libs/utils/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "libs/utils/.eslintrc",
+            "tsConfig": ["libs/utils/tsconfig.lib.json", "libs/utils/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/utils/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/utils/jest.config.js",
+            "tsConfig": "libs/utils/tsconfig.spec.json"
           }
         }
       }

@@ -14,30 +14,30 @@ export class TodosService {
       this.getNewTodoId(),
       this.getNewTodoId(),
       this.getNewTodoId(),
-      this.getNewTodoId()
+      this.getNewTodoId(),
     ];
 
     return {
       [allIds[0]]: {
         id: allIds[0],
         isDone: false,
-        text: 'Add foossah'
+        text: 'Add foobarsss',
       },
       [allIds[1]]: {
         id: allIds[1],
         isDone: false,
-        text: 'Call bar'
+        text: 'Call bar',
       },
       [allIds[2]]: {
         id: allIds[2],
         isDone: false,
-        text: 'Drink baz'
+        text: 'Drink baz',
       },
       [allIds[3]]: {
         id: allIds[3],
         isDone: false,
-        text: 'Stuff foo into bar'
-      }
+        text: 'Stuff foo into bar',
+      },
     };
   }
 

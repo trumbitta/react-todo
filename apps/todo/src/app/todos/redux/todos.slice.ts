@@ -5,50 +5,36 @@ import { createSlice, PayloadAction } from 'redux-starter-kit';
 import * as uuid from 'uuid';
 
 // App Libraries
-import { Todo, TodosMap } from '@todo/shared-models';
+import { Todo, TodosMap, ApiError } from '@todo/shared-models';
 
 export interface TodosState {
   byIds: TodosMap;
   allIds: string[];
 }
 
-const allIds: string[] = [
-  getNewTodoId(),
-  getNewTodoId(),
-  getNewTodoId(),
-  getNewTodoId()
-];
-
 const initialState: TodosState = {
-  byIds: {
-    [allIds[0]]: {
-      id: allIds[0],
-      isDone: false,
-      text: 'Add foo'
-    },
-    [allIds[1]]: {
-      id: allIds[1],
-      isDone: false,
-      text: 'Call bar'
-    },
-    [allIds[2]]: {
-      id: allIds[2],
-      isDone: false,
-      text: 'Drink baz'
-    },
-    [allIds[3]]: {
-      id: allIds[3],
-      isDone: false,
-      text: 'Stuff foo into bar'
-    }
-  },
-  allIds: allIds
+  byIds: {},
+  allIds: [],
 };
 
 const todosSlice = createSlice({
   name: 'todos',
   initialState,
   reducers: {
+    loadTodos(state) {
+      return state;
+    },
+    loadTodosSuccess(state, action: PayloadAction<TodosMap>) {
+      return {
+        ...state,
+        byIds: action.payload,
+        allIds: Object.keys(action.payload),
+      };
+    },
+    loadTodosError(state, action: PayloadAction<ApiError>) {
+      return state;
+    },
+
     toggleTodo(state, action: PayloadAction<string>) {
       const id = action.payload;
 
@@ -58,9 +44,9 @@ const todosSlice = createSlice({
           ...state.byIds,
           [id]: {
             ...state.byIds[id],
-            isDone: !state.byIds[id].isDone
-          }
-        }
+            isDone: !state.byIds[id].isDone,
+          },
+        },
       };
     },
 
@@ -72,13 +58,13 @@ const todosSlice = createSlice({
             byIds[id] = {
               id,
               isDone: !state.byIds[id].isDone,
-              text: state.byIds[id].text
+              text: state.byIds[id].text,
             };
 
             return byIds;
           },
           {} as TodosMap
-        )
+        ),
       };
     },
 
@@ -93,10 +79,10 @@ const todosSlice = createSlice({
           [newId]: {
             id: newId,
             isDone: false,
-            text: todo.text
-          }
+            text: todo.text,
+          },
         },
-        allIds: [...state.allIds, newId]
+        allIds: [...state.allIds, newId],
       };
     },
 
@@ -107,12 +93,12 @@ const todosSlice = createSlice({
         ...state,
         byIds: {
           ...state.byIds,
-          [id]: undefined
+          [id]: undefined,
         },
-        allIds: state.allIds.filter(itemId => itemId !== id)
+        allIds: state.allIds.filter(itemId => itemId !== id),
       };
-    }
-  }
+    },
+  },
 });
 
 function getNewTodoId(): string {
@@ -122,8 +108,11 @@ function getNewTodoId(): string {
 export const {
   addTodo,
   deleteTodo,
+  loadTodos,
+  loadTodosSuccess,
+  loadTodosError,
   toggleAll,
-  toggleTodo
+  toggleTodo,
 } = todosSlice.actions;
 
 export const { reducer: todosReducer, name: todosFeatureName } = todosSlice;

@@ -1,4 +1,6 @@
 {
+  "insertPragma": true,
+  "printWidth": 100,
   "singleQuote": true,
-  "insertPragma": true
+  "trailingComma": "es5"
 }
