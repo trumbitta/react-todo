@@ -9,10 +9,22 @@
   },
   "projects": {
     "todo": {
-      "tags": []
+      "tags": [
+        "frontend"
+      ]
     },
     "todo-e2e": {
       "tags": []
+    },
+    "api": {
+      "tags": [
+        "backend"
+      ]
+    },
+    "shared-models": {
+      "tags": [
+        "shared"
+      ]
     }
   }
 }

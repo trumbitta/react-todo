@@ -7,8 +7,8 @@ import { createSelector } from 'redux-starter-kit';
 import { AppState } from '../../redux/store';
 import { TodosState } from './todos.slice';
 
-// App Models
-import { TodosMap, Todo } from '../todo.model';
+// App Libraries
+import { Todo, TodosMap } from '@todo/shared-models';
 
 export const selectTodos = (state: AppState) => state.todos;
 

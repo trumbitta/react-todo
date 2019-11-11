@@ -15,7 +15,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@todo/shared-models": ["libs/shared-models/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
