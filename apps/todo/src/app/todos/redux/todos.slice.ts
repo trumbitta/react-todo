@@ -2,7 +2,6 @@
 
 // Third Parties
 import { createSlice, PayloadAction } from 'redux-starter-kit';
-import * as uuid from 'uuid';
 
 // App Libraries
 import { Todo, TodosMap, ApiError } from '@todo/shared-models';
@@ -69,21 +68,23 @@ const todosSlice = createSlice({
     },
 
     addTodo(state, action: PayloadAction<Todo>) {
+      // TODO: implement optimistic update
+      return state;
+    },
+    addTodoSuccess(state, action: PayloadAction<Todo>) {
       const todo = action.payload;
-      const newId = getNewTodoId();
 
       return {
         ...state,
         byIds: {
           ...state.byIds,
-          [newId]: {
-            id: newId,
-            isDone: false,
-            text: todo.text,
-          },
+          [todo.id]: todo,
         },
-        allIds: [...state.allIds, newId],
+        allIds: [...state.allIds, todo.id],
       };
+    },
+    addTodoError(state, action: PayloadAction<ApiError>) {
+      return state;
     },
 
     deleteTodo(state, action: PayloadAction<string>) {
@@ -101,16 +102,14 @@ const todosSlice = createSlice({
   },
 });
 
-function getNewTodoId(): string {
-  return uuid();
-}
-
 export const {
   addTodo,
+  addTodoError,
+  addTodoSuccess,
   deleteTodo,
   loadTodos,
-  loadTodosSuccess,
   loadTodosError,
+  loadTodosSuccess,
   toggleAll,
   toggleTodo,
 } = todosSlice.actions;

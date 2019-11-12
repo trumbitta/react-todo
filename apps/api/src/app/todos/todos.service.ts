@@ -21,7 +21,11 @@ export class TodosService {
   ) {}
 
   async addTodo(todo: Todo): Promise<Todo> {
-    const created = await this.todosTodoRepository.save({ ...todo, id: this.getNewTodoId() });
+    const created = await this.todosTodoRepository.save({
+      ...todo,
+      id: this.getNewTodoId(),
+      isDone: false,
+    });
 
     return created;
   }
