@@ -2,43 +2,41 @@
 
 import { Injectable } from '@nestjs/common';
 
+// Third Parties
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import * as uuid from 'uuid';
 
+// App Entities
+import { TodosTodoEntity } from './todos-todo.entity';
+
 // App Libraries
-import { TodosMap } from '@todo/shared-models';
+import { TodosMap, Todo } from '@todo/shared-models';
 
 @Injectable()
 export class TodosService {
-  getTodos(): TodosMap {
-    const allIds: string[] = [
-      this.getNewTodoId(),
-      this.getNewTodoId(),
-      this.getNewTodoId(),
-      this.getNewTodoId(),
-    ];
+  constructor(
+    @InjectRepository(TodosTodoEntity)
+    private readonly todosTodoRepository: Repository<TodosTodoEntity>
+  ) {}
 
-    return {
-      [allIds[0]]: {
-        id: allIds[0],
-        isDone: false,
-        text: 'Add foobarsss',
+  async addTodo(todo: Todo): Promise<Todo> {
+    const created = await this.todosTodoRepository.save({ ...todo, id: this.getNewTodoId() });
+
+    return created;
+  }
+
+  async getTodos(): Promise<TodosMap> {
+    const todos = await this.todosTodoRepository.find();
+
+    return todos.reduce(
+      (accumulator, current) => {
+        accumulator[current.id] = current;
+
+        return accumulator;
       },
-      [allIds[1]]: {
-        id: allIds[1],
-        isDone: false,
-        text: 'Call bar',
-      },
-      [allIds[2]]: {
-        id: allIds[2],
-        isDone: false,
-        text: 'Drink baz',
-      },
-      [allIds[3]]: {
-        id: allIds[3],
-        isDone: false,
-        text: 'Stuff foo into bar',
-      },
-    };
+      {} as TodosMap
+    );
   }
 
   private getNewTodoId(): string {
