@@ -21,13 +21,15 @@ export class TodosService {
   ) {}
 
   async addTodo(todo: Todo): Promise<Todo> {
-    const created = await this.todosTodoRepository.save({
-      ...todo,
+    const created = await this.todosTodoRepository.create(todo);
+
+    const newTodo = await this.todosTodoRepository.save({
+      ...created,
       id: this.getNewTodoId(),
       isDone: false,
     });
 
-    return created;
+    return newTodo;
   }
 
   async getTodos(): Promise<TodosMap> {
