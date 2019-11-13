@@ -11,18 +11,18 @@ import { TodosMap, Todo } from '@todo/shared-models';
 // App Services
 import { TodosService } from './todos.service';
 
-@Controller()
+@Controller('v1/todos')
 export class TodosController {
   constructor(private readonly todosService: TodosService) {}
 
-  @Get('v1/todos')
+  @Get()
   async getTodos(): Promise<TodosMap> {
     const todos = await this.todosService.getTodos();
 
     return todos;
   }
 
-  @Post('v1/todos')
+  @Post()
   async createTodo(@Body() todo: Todo): Promise<Todo> {
     const newTodo = await this.todosService.addTodo(todo);
 
