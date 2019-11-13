@@ -34,19 +34,23 @@ const todosSlice = createSlice({
       return state;
     },
 
+    // TODO: implement optimistic update
     toggleTodo(state, action: PayloadAction<string>) {
-      const id = action.payload;
+      return state;
+    },
+    toggleTodoSuccess(state, action: PayloadAction<Todo>) {
+      const todo = action.payload;
 
       return {
         ...state,
         byIds: {
           ...state.byIds,
-          [id]: {
-            ...state.byIds[id],
-            isDone: !state.byIds[id].isDone,
-          },
+          [todo.id]: todo,
         },
       };
+    },
+    toggleTodoError(state, action: PayloadAction<ApiError>) {
+      return state;
     },
 
     toggleAll(state) {
@@ -88,6 +92,12 @@ const todosSlice = createSlice({
     },
 
     deleteTodo(state, action: PayloadAction<string>) {
+      // TODO: implement optimistic update
+
+      return state;
+    },
+
+    deleteTodoSuccess(state, action: PayloadAction<string>) {
       const id = action.payload;
 
       return {
@@ -99,6 +109,10 @@ const todosSlice = createSlice({
         allIds: state.allIds.filter(itemId => itemId !== id),
       };
     },
+
+    deleteTodoError(state, action: PayloadAction<ApiError>) {
+      return state;
+    },
   },
 });
 
@@ -107,11 +121,15 @@ export const {
   addTodoError,
   addTodoSuccess,
   deleteTodo,
+  deleteTodoError,
+  deleteTodoSuccess,
   loadTodos,
   loadTodosError,
   loadTodosSuccess,
   toggleAll,
   toggleTodo,
+  toggleTodoError,
+  toggleTodoSuccess,
 } = todosSlice.actions;
 
 export const { reducer: todosReducer, name: todosFeatureName } = todosSlice;

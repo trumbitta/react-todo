@@ -2,14 +2,15 @@
 
 // Third Parties
 import { Action } from 'redux';
-import { ofType, ActionsObservable } from 'redux-observable';
+import { ofType, ActionsObservable, StateObservable } from 'redux-observable';
 
 // RxJS
 import { of } from 'rxjs';
-import { ajax, AjaxResponse } from 'rxjs/ajax';
-import { switchMap, map, catchError, pluck, tap } from 'rxjs/operators';
+import { ajax } from 'rxjs/ajax';
+import { switchMap, map, catchError, pluck, withLatestFrom } from 'rxjs/operators';
 
 // Redux
+import { AppState } from '../../redux/store';
 import {
   loadTodos,
   loadTodosSuccess,
@@ -17,10 +18,16 @@ import {
   addTodo,
   addTodoSuccess,
   addTodoError,
+  deleteTodo,
+  deleteTodoSuccess,
+  deleteTodoError,
+  toggleTodo,
+  toggleTodoSuccess,
+  toggleTodoError,
 } from './todos.slice';
 
 // App Endpoints
-import { apiEndpointTodos } from '../../config/api.config';
+import { apiEndpointTodos, apiEndpointTodosSingle } from '../../config/api.config';
 
 // App Libraries
 import { TodosMap, ApiError, Todo } from '@todo/shared-models';
@@ -42,12 +49,47 @@ export const addTodoEpic = (action$: ActionsObservable<Action>) =>
   action$.pipe(
     ofType(addTodo.type),
     pluck('payload'),
-    switchMap(todo =>
+    switchMap((todo: Todo) =>
       ajax.post(apiEndpointTodos, todo).pipe(
         map(ajaxResponse => ajaxResponse.response),
         map((newTodo: Todo) => addTodoSuccess(newTodo)),
         catchError(error => {
           return of(addTodoError<ApiError>(error.response));
+        })
+      )
+    )
+  );
+
+export const deleteTodoEpic = (action$: ActionsObservable<Action>) =>
+  action$.pipe(
+    ofType(deleteTodo.type),
+    pluck('payload'),
+    switchMap((id: string) =>
+      ajax.delete(apiEndpointTodosSingle.replace(':id', id)).pipe(
+        map(() => deleteTodoSuccess(id)),
+        catchError(error => {
+          return of(deleteTodoError<ApiError>(error.response));
+        })
+      )
+    )
+  );
+
+export const toggleTodoEpic = (
+  action$: ActionsObservable<Action>,
+  state$: StateObservable<AppState>
+) =>
+  action$.pipe(
+    ofType(toggleTodo.type),
+    pluck('payload'),
+    withLatestFrom(state$),
+    map(([id, state]) => [id as string, state.todos.byIds[id as string]]),
+    map(data => [data[0] as string, { ...(data[1] as Todo), isDone: !(data[1] as Todo).isDone }]),
+    switchMap(data =>
+      ajax.put(apiEndpointTodosSingle.replace(':id', data[0] as string), data[1] as Todo).pipe(
+        map(ajaxResponse => ajaxResponse.response),
+        map((todo: Todo) => toggleTodoSuccess(todo)),
+        catchError(error => {
+          return of(toggleTodoError<ApiError>(error.response));
         })
       )
     )
