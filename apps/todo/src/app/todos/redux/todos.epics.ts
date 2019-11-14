@@ -50,13 +50,17 @@ export const addTodoEpic = (action$: ActionsObservable<Action>) =>
     ofType(addTodo.type),
     pluck('payload'),
     switchMap((todo: Todo) =>
-      ajax.post(apiEndpointTodos, todo).pipe(
-        map(ajaxResponse => ajaxResponse.response),
-        map((newTodo: Todo) => addTodoSuccess(newTodo)),
-        catchError(error => {
-          return of(addTodoError<ApiError>(error.response));
+      ajax
+        .post(apiEndpointTodos, todo, {
+          'Content-Type': 'application/json',
         })
-      )
+        .pipe(
+          map(ajaxResponse => ajaxResponse.response),
+          map((newTodo: Todo) => addTodoSuccess(newTodo)),
+          catchError(error => {
+            return of(addTodoError<ApiError>(error.response));
+          })
+        )
     )
   );
 
@@ -85,12 +89,16 @@ export const toggleTodoEpic = (
     map(([id, state]) => [id as string, state.todos.byIds[id as string]]),
     map(data => [data[0] as string, { ...(data[1] as Todo), isDone: !(data[1] as Todo).isDone }]),
     switchMap(data =>
-      ajax.put(apiEndpointTodosSingle.replace(':id', data[0] as string), data[1] as Todo).pipe(
-        map(ajaxResponse => ajaxResponse.response),
-        map((todo: Todo) => toggleTodoSuccess(todo)),
-        catchError(error => {
-          return of(toggleTodoError<ApiError>(error.response));
+      ajax
+        .put(apiEndpointTodosSingle.replace(':id', data[0] as string), data[1] as Todo, {
+          'Content-Type': 'application/json',
         })
-      )
+        .pipe(
+          map(ajaxResponse => ajaxResponse.response),
+          map((todo: Todo) => toggleTodoSuccess(todo)),
+          catchError(error => {
+            return of(toggleTodoError<ApiError>(error.response));
+          })
+        )
     )
   );
