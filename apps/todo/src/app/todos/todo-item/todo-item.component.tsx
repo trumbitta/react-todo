@@ -5,11 +5,7 @@ import React, { FunctionComponent } from 'react';
 // App Libraries
 import { Todo } from '@todo/shared-models';
 
-const TodoItem_: FunctionComponent<TodoItemProps> = ({
-  todo,
-  onToggleIsDone,
-  onDeleteTodo
-}) => {
+const TodoItem_: FunctionComponent<TodoItemProps> = ({ todo, onToggleIsDone, onDeleteTodo }) => {
   const toggleIsDone = (event: React.MouseEvent<HTMLSpanElement>) => {
     event.preventDefault();
 
