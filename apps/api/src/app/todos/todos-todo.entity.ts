@@ -1,11 +1,12 @@
 /** @format */
 
 // Third Parties
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, Generated } from 'typeorm';
 
 @Entity()
 export class TodosTodoEntity {
   @PrimaryColumn()
+  @Generated('uuid')
   id: string;
 
   @Column()

@@ -4,8 +4,7 @@ import { Injectable } from '@nestjs/common';
 
 // Third Parties
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DeleteResult, UpdateResult } from 'typeorm';
-import * as uuid from 'uuid';
+import { Repository, DeleteResult } from 'typeorm';
 
 // App Entities
 import { TodosTodoEntity } from './todos-todo.entity';
@@ -25,7 +24,6 @@ export class TodosService {
 
     const newTodo = await this.todosTodoRepository.save({
       ...created,
-      id: this.getNewTodoId(),
       isDone: false,
     });
 
@@ -53,13 +51,11 @@ export class TodosService {
 
   async updateTodo(id: string, todo: Todo): Promise<Todo> {
     const toUpdate = await this.todosTodoRepository.findOne(id);
+
     this.todosTodoRepository.merge(toUpdate, todo);
+
     const updated = await this.todosTodoRepository.save(todo);
 
     return updated;
-  }
-
-  private getNewTodoId(): string {
-    return uuid();
   }
 }
