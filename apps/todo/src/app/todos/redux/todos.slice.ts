@@ -24,11 +24,7 @@ const todosSlice = createSlice({
       return state;
     },
     loadTodosSuccess(state, action: PayloadAction<TodosMap>) {
-      return {
-        ...state,
-        byIds: action.payload,
-        allIds: Object.keys(action.payload),
-      };
+      return updateAll(state, action.payload);
     },
     loadTodosError(state, action: PayloadAction<ApiError>) {
       return state;
@@ -54,21 +50,13 @@ const todosSlice = createSlice({
     },
 
     toggleAll(state) {
-      return {
-        ...state,
-        byIds: state.allIds.reduce(
-          (byIds, id) => {
-            byIds[id] = {
-              id,
-              isDone: !state.byIds[id].isDone,
-              text: state.byIds[id].text,
-            };
-
-            return byIds;
-          },
-          {} as TodosMap
-        ),
-      };
+      return state;
+    },
+    toggleAllSuccess(state, action: PayloadAction<TodosMap>) {
+      return updateAll(state, action.payload);
+    },
+    toggleAllError(state, action: PayloadAction<ApiError>) {
+      return state;
     },
 
     addTodo(state, action: PayloadAction<Todo>) {
@@ -115,6 +103,14 @@ const todosSlice = createSlice({
     },
   },
 });
+
+function updateAll(state: TodosState, todosMap: TodosMap): { byIds: TodosMap; allIds: string[] } {
+  return {
+    ...state,
+    byIds: todosMap,
+    allIds: Object.keys(todosMap),
+  };
+}
 
 export const {
   addTodo,
