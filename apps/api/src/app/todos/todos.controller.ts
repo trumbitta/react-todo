@@ -42,4 +42,11 @@ export class TodosController {
 
     return updated;
   }
+
+  @Post('rpc/toggle-all')
+  async toggleAll(): Promise<TodosMap> {
+    const todos = await this.todosService.toggleAll();
+
+    return todos;
+  }
 }
