@@ -49,4 +49,11 @@ export class TodosController {
 
     return todos;
   }
+
+  @Post('rpc/delete-all')
+  async deleteAll(): Promise<void> {
+    const deleted = await this.todosService.deleteAll();
+
+    return deleted;
+  }
 }
