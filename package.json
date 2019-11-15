@@ -29,6 +29,7 @@
     "@nestjs/common": "^6.8.3",
     "@nestjs/core": "^6.8.3",
     "@nestjs/platform-express": "^6.8.3",
+    "@nestjs/typeorm": "^6.2.0",
     "document-register-element": "1.13.1",
     "formik": "^2.0.3",
     "react": "16.10.2",
@@ -39,8 +40,9 @@
     "redux-starter-kit": "^1.0.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.5.3",
+    "sqlite3": "^4.1.0",
     "styled-components": "4.4.0",
-    "uuid": "^3.3.3"
+    "typeorm": "^0.2.20"
   },
   "devDependencies": {
     "@babel/preset-react": "7.0.0",

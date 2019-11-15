@@ -2,7 +2,6 @@
 
 // Third Parties
 import { createSlice, PayloadAction } from 'redux-starter-kit';
-import * as uuid from 'uuid';
 
 // App Libraries
 import { Todo, TodosMap, ApiError } from '@todo/shared-models';
@@ -25,29 +24,28 @@ const todosSlice = createSlice({
       return state;
     },
     loadTodosSuccess(state, action: PayloadAction<TodosMap>) {
-      return {
-        ...state,
-        byIds: action.payload,
-        allIds: Object.keys(action.payload),
-      };
+      return updateAll(state, action.payload);
     },
     loadTodosError(state, action: PayloadAction<ApiError>) {
       return state;
     },
 
     toggleTodo(state, action: PayloadAction<string>) {
-      const id = action.payload;
+      return doToggleTodo(state, action.payload);
+    },
+    toggleTodoSuccess(state, action: PayloadAction<Todo>) {
+      const todo = action.payload;
 
       return {
         ...state,
         byIds: {
           ...state.byIds,
-          [id]: {
-            ...state.byIds[id],
-            isDone: !state.byIds[id].isDone,
-          },
+          [todo.id]: todo,
         },
       };
+    },
+    toggleTodoError(state, action: PayloadAction<ApiError<Todo>>) {
+      return doToggleTodo(state, action.payload.details.id);
     },
 
     toggleAll(state) {
@@ -67,26 +65,37 @@ const todosSlice = createSlice({
         ),
       };
     },
+    toggleAllSuccess(state, action: PayloadAction<TodosMap>) {
+      return updateAll(state, action.payload);
+    },
+    toggleAllError(state, action: PayloadAction<ApiError>) {
+      return state;
+    },
 
     addTodo(state, action: PayloadAction<Todo>) {
+      return state;
+    },
+    addTodoSuccess(state, action: PayloadAction<Todo>) {
       const todo = action.payload;
-      const newId = getNewTodoId();
 
       return {
         ...state,
         byIds: {
           ...state.byIds,
-          [newId]: {
-            id: newId,
-            isDone: false,
-            text: todo.text,
-          },
+          [todo.id]: todo,
         },
-        allIds: [...state.allIds, newId],
+        allIds: [...state.allIds, todo.id],
       };
+    },
+    addTodoError(state, action: PayloadAction<ApiError>) {
+      return state;
     },
 
     deleteTodo(state, action: PayloadAction<string>) {
+      return state;
+    },
+
+    deleteTodoSuccess(state, action: PayloadAction<string>) {
       const id = action.payload;
 
       return {
@@ -98,21 +107,45 @@ const todosSlice = createSlice({
         allIds: state.allIds.filter(itemId => itemId !== id),
       };
     },
+
+    deleteTodoError(state, action: PayloadAction<ApiError>) {
+      return state;
+    },
   },
 });
 
-function getNewTodoId(): string {
-  return uuid();
+const doToggleTodo = (state: TodosState, id: string) => ({
+  ...state,
+  byIds: {
+    ...state.byIds,
+    [id]: { ...state.byIds[id], isDone: !state.byIds[id].isDone },
+  },
+});
+
+function updateAll(state: TodosState, todosMap: TodosMap): { byIds: TodosMap; allIds: string[] } {
+  return {
+    ...state,
+    byIds: todosMap,
+    allIds: Object.keys(todosMap),
+  };
 }
 
 export const {
   addTodo,
+  addTodoError,
+  addTodoSuccess,
   deleteTodo,
+  deleteTodoError,
+  deleteTodoSuccess,
   loadTodos,
-  loadTodosSuccess,
   loadTodosError,
+  loadTodosSuccess,
   toggleAll,
+  toggleAllError,
+  toggleAllSuccess,
   toggleTodo,
+  toggleTodoError,
+  toggleTodoSuccess,
 } = todosSlice.actions;
 
 export const { reducer: todosReducer, name: todosFeatureName } = todosSlice;

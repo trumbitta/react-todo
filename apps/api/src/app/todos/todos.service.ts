@@ -2,46 +2,72 @@
 
 import { Injectable } from '@nestjs/common';
 
-import * as uuid from 'uuid';
+// Third Parties
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository, DeleteResult } from 'typeorm';
+
+// App Entities
+import { TodosTodoEntity } from './todos-todo.entity';
 
 // App Libraries
-import { TodosMap } from '@todo/shared-models';
+import { TodosMap, Todo } from '@todo/shared-models';
 
 @Injectable()
 export class TodosService {
-  getTodos(): TodosMap {
-    const allIds: string[] = [
-      this.getNewTodoId(),
-      this.getNewTodoId(),
-      this.getNewTodoId(),
-      this.getNewTodoId(),
-    ];
+  constructor(
+    @InjectRepository(TodosTodoEntity)
+    private readonly todosTodoRepository: Repository<TodosTodoEntity>
+  ) {}
 
-    return {
-      [allIds[0]]: {
-        id: allIds[0],
-        isDone: false,
-        text: 'Add foobarsss',
-      },
-      [allIds[1]]: {
-        id: allIds[1],
-        isDone: false,
-        text: 'Call bar',
-      },
-      [allIds[2]]: {
-        id: allIds[2],
-        isDone: false,
-        text: 'Drink baz',
-      },
-      [allIds[3]]: {
-        id: allIds[3],
-        isDone: false,
-        text: 'Stuff foo into bar',
-      },
-    };
+  async addTodo(todo: Todo): Promise<Todo> {
+    const created = await this.todosTodoRepository.create(todo);
+
+    const newTodo = await this.todosTodoRepository.save({
+      ...created,
+      isDone: false,
+    });
+
+    return newTodo;
   }
 
-  private getNewTodoId(): string {
-    return uuid();
+  async getTodos(): Promise<TodosMap> {
+    const todos = await this.todosTodoRepository.find();
+
+    return this.toTodosMap(todos);
+  }
+
+  async deleteTodo(id: string): Promise<DeleteResult> {
+    const result = await this.todosTodoRepository.delete(id);
+
+    return result;
+  }
+
+  async updateTodo(id: string, todo: Todo): Promise<Todo> {
+    const toUpdate = await this.todosTodoRepository.findOne(id);
+
+    this.todosTodoRepository.merge(toUpdate, todo);
+
+    const updated = await this.todosTodoRepository.save(todo);
+
+    return updated;
+  }
+
+  async toggleAll(): Promise<TodosMap> {
+    const todos = await this.todosTodoRepository.find();
+    const updatedTodos = await this.todosTodoRepository.save(
+      todos.map(todo => ({ ...todo, isDone: !todo.isDone }))
+    );
+
+    return this.toTodosMap(updatedTodos);
+  }
+
+  private toTodosMap(todos: TodosTodoEntity[]): TodosMap | PromiseLike<TodosMap> {
+    return todos.reduce(
+      (accumulator, current) => {
+        accumulator[current.id] = current;
+        return accumulator;
+      },
+      {} as TodosMap
+    );
   }
 }

@@ -6,13 +6,25 @@ import { configureStore, getDefaultMiddleware } from 'redux-starter-kit';
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
 
 // Redux
-import { loadTodosEpic } from '../todos/redux/todos.epics';
+import {
+  loadTodosEpic,
+  addTodoEpic,
+  deleteTodoEpic,
+  toggleTodoEpic,
+  toggleAllEpic,
+} from '../todos/redux/todos.epics';
 import { todosReducer, todosFeatureName } from '../todos/redux/todos.slice';
 
 const rootReducer = combineReducers({ [todosFeatureName]: todosReducer });
 export type AppState = ReturnType<typeof rootReducer>;
 
-const rootEpic = combineEpics(loadTodosEpic);
+const rootEpic = combineEpics(
+  loadTodosEpic,
+  addTodoEpic,
+  deleteTodoEpic,
+  toggleTodoEpic,
+  toggleAllEpic
+);
 const epicMiddleware = createEpicMiddleware();
 
 export const store = configureStore({

@@ -1,6 +1,7 @@
 /** @format */
 
-export interface ApiError {
+export interface ApiError<T = void> {
   code: string;
   description: string;
+  details?: T;
 }
