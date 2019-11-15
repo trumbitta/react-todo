@@ -45,9 +45,7 @@ export const loadTodosEpic = (action$: ActionsObservable<Action>) =>
     switchMap(() =>
       ajax.getJSON<TodosMap>(apiEndpointTodos).pipe(
         map(todosMap => loadTodosSuccess<TodosMap>(todosMap)),
-        catchError(error => {
-          return of(loadTodosError<ApiError>(error.response));
-        })
+        catchError(error => of(loadTodosError<ApiError>(error.response)))
       )
     )
   );
@@ -64,9 +62,7 @@ export const addTodoEpic = (action$: ActionsObservable<Action>) =>
         .pipe(
           map(ajaxResponse => ajaxResponse.response),
           map((newTodo: Todo) => addTodoSuccess(newTodo)),
-          catchError(error => {
-            return of(addTodoError<ApiError>(error.response));
-          })
+          catchError(error => of(addTodoError<ApiError>(error.response)))
         )
     )
   );
@@ -78,9 +74,7 @@ export const deleteTodoEpic = (action$: ActionsObservable<Action>) =>
     switchMap((id: string) =>
       ajax.delete(apiEndpointTodosSingle.replace(':id', id)).pipe(
         map(() => deleteTodoSuccess(id)),
-        catchError(error => {
-          return of(deleteTodoError<ApiError>(error.response));
-        })
+        catchError(error => of(deleteTodoError<ApiError>(error.response)))
       )
     )
   );
