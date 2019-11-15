@@ -24,10 +24,17 @@ import {
   toggleTodo,
   toggleTodoSuccess,
   toggleTodoError,
+  toggleAll,
+  toggleAllSuccess,
+  toggleAllError,
 } from './todos.slice';
 
 // App Endpoints
-import { apiEndpointTodos, apiEndpointTodosSingle } from '../../config/api.config';
+import {
+  apiEndpointTodos,
+  apiEndpointTodosSingle,
+  apiEndpointTodosToggleAll,
+} from '../../config/api.config';
 
 // App Libraries
 import { TodosMap, ApiError, Todo } from '@todo/shared-models';
@@ -96,9 +103,19 @@ export const toggleTodoEpic = (
         .pipe(
           map(ajaxResponse => ajaxResponse.response),
           map((todo: Todo) => toggleTodoSuccess(todo)),
-          catchError(error => {
-            return of(toggleTodoError<ApiError>(error.response));
-          })
+          catchError(error => of(toggleTodoError<ApiError>(error.response)))
         )
+    )
+  );
+
+export const toggleAllEpic = (action$: ActionsObservable<Action>) =>
+  action$.pipe(
+    ofType(toggleAll.type),
+    switchMap(() =>
+      ajax.post(apiEndpointTodosToggleAll, { 'Content-Type': 'application/json' }).pipe(
+        map(ajaxResponse => ajaxResponse.response),
+        map((todosMap: TodosMap) => toggleAllSuccess(todosMap)),
+        catchError(error => of(toggleAllError<ApiError>(error.response)))
+      )
     )
   );

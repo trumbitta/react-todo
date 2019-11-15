@@ -50,7 +50,21 @@ const todosSlice = createSlice({
     },
 
     toggleAll(state) {
-      return state;
+      return {
+        ...state,
+        byIds: state.allIds.reduce(
+          (byIds, id) => {
+            byIds[id] = {
+              id,
+              isDone: !state.byIds[id].isDone,
+              text: state.byIds[id].text,
+            };
+
+            return byIds;
+          },
+          {} as TodosMap
+        ),
+      };
     },
     toggleAllSuccess(state, action: PayloadAction<TodosMap>) {
       return updateAll(state, action.payload);
@@ -123,6 +137,8 @@ export const {
   loadTodosError,
   loadTodosSuccess,
   toggleAll,
+  toggleAllError,
+  toggleAllSuccess,
   toggleTodo,
   toggleTodoError,
   toggleTodoSuccess,

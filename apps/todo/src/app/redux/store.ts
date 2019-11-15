@@ -11,13 +11,20 @@ import {
   addTodoEpic,
   deleteTodoEpic,
   toggleTodoEpic,
+  toggleAllEpic,
 } from '../todos/redux/todos.epics';
 import { todosReducer, todosFeatureName } from '../todos/redux/todos.slice';
 
 const rootReducer = combineReducers({ [todosFeatureName]: todosReducer });
 export type AppState = ReturnType<typeof rootReducer>;
 
-const rootEpic = combineEpics(loadTodosEpic, addTodoEpic, deleteTodoEpic, toggleTodoEpic);
+const rootEpic = combineEpics(
+  loadTodosEpic,
+  addTodoEpic,
+  deleteTodoEpic,
+  toggleTodoEpic,
+  toggleAllEpic
+);
 const epicMiddleware = createEpicMiddleware();
 
 export const store = configureStore({
