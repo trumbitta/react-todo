@@ -88,7 +88,6 @@ export const toggleTodoEpic = (
     pluck('payload'),
     withLatestFrom(state$),
     map(([id, state]) => [id as string, state.todos.byIds[id as string]]),
-    map(data => [data[0] as string, { ...(data[1] as Todo), isDone: !(data[1] as Todo).isDone }]),
     switchMap(data =>
       ajax
         .put(apiEndpointTodosSingle.replace(':id', data[0] as string), data[1] as Todo, {
@@ -97,7 +96,7 @@ export const toggleTodoEpic = (
         .pipe(
           map(ajaxResponse => ajaxResponse.response),
           map((todo: Todo) => toggleTodoSuccess(todo)),
-          catchError(error => of(toggleTodoError<ApiError>(error.response)))
+          catchError(error => of(toggleTodoError<ApiError<Todo>>(error.response)))
         )
     )
   );
