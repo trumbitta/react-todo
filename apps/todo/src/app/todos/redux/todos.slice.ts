@@ -130,22 +130,5 @@ function updateAll(state: TodosState, todosMap: TodosMap): { byIds: TodosMap; al
   };
 }
 
-export const {
-  addTodo,
-  addTodoError,
-  addTodoSuccess,
-  deleteTodo,
-  deleteTodoError,
-  deleteTodoSuccess,
-  loadTodos,
-  loadTodosError,
-  loadTodosSuccess,
-  toggleAll,
-  toggleAllError,
-  toggleAllSuccess,
-  toggleTodo,
-  toggleTodoError,
-  toggleTodoSuccess,
-} = todosSlice.actions;
-
+export const todosActions = todosSlice.actions;
 export const { reducer: todosReducer, name: todosFeatureName } = todosSlice;
