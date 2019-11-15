@@ -34,13 +34,15 @@ export const Todos: FunctionComponent = () => {
 
   const dispatchToggleAll = () => dispatch(todosActions.toggleAll());
 
+  const dispatchDeleteAll = () => dispatch(todosActions.deleteAll());
+
   useMountEffect(() => {
     dispatch(todosActions.loadTodos());
   });
 
   return (
     <section>
-      <TodosActionBar onToggleAll={dispatchToggleAll} />
+      <TodosActionBar onToggleAll={dispatchToggleAll} onDeleteAll={dispatchDeleteAll} />
 
       <ul>
         {todos.map(todo => (

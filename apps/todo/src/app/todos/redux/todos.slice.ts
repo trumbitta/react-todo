@@ -94,7 +94,6 @@ const todosSlice = createSlice({
     deleteTodo(state, action: PayloadAction<string>) {
       return state;
     },
-
     deleteTodoSuccess(state, action: PayloadAction<string>) {
       const id = action.payload;
 
@@ -107,9 +106,18 @@ const todosSlice = createSlice({
         allIds: state.allIds.filter(itemId => itemId !== id),
       };
     },
-
     deleteTodoError(state, action: PayloadAction<ApiError>) {
       return state;
+    },
+
+    deleteAll(state) {
+      return state;
+    },
+    deleteAllError(state, action: PayloadAction<ApiError>) {
+      return state;
+    },
+    deleteAllSuccess(state) {
+      return initialState;
     },
   },
 });

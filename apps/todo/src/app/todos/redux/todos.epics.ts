@@ -18,6 +18,7 @@ import {
   apiEndpointTodos,
   apiEndpointTodosSingle,
   apiEndpointTodosToggleAll,
+  apiEndpointTodosDeleteAll,
 } from '../../config/api.config';
 
 // App Libraries
@@ -59,6 +60,17 @@ export const deleteTodoEpic = (action$: ActionsObservable<Action>) =>
       ajax.delete(apiEndpointTodosSingle.replace(':id', id)).pipe(
         map(() => todosActions.deleteTodoSuccess(id)),
         catchError(error => of(todosActions.deleteTodoError<ApiError>(error.response)))
+      )
+    )
+  );
+
+export const deleteAllEpic = (action$: ActionsObservable<Action>) =>
+  action$.pipe(
+    ofType(todosActions.deleteAll.type),
+    switchMap(() =>
+      ajax.post(apiEndpointTodosDeleteAll).pipe(
+        map(() => todosActions.deleteAllSuccess()),
+        catchError(error => of(todosActions.deleteAllError<ApiError>(error.response)))
       )
     )
   );
