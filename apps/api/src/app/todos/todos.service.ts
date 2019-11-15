@@ -61,6 +61,12 @@ export class TodosService {
     return this.toTodosMap(updatedTodos);
   }
 
+  async deleteAll(): Promise<void> {
+    const deleted = await this.todosTodoRepository.clear();
+
+    return deleted;
+  }
+
   private toTodosMap(todos: TodosTodoEntity[]): TodosMap | PromiseLike<TodosMap> {
     return todos.reduce(
       (accumulator, current) => {

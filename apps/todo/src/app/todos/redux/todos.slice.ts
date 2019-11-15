@@ -94,7 +94,6 @@ const todosSlice = createSlice({
     deleteTodo(state, action: PayloadAction<string>) {
       return state;
     },
-
     deleteTodoSuccess(state, action: PayloadAction<string>) {
       const id = action.payload;
 
@@ -107,9 +106,18 @@ const todosSlice = createSlice({
         allIds: state.allIds.filter(itemId => itemId !== id),
       };
     },
-
     deleteTodoError(state, action: PayloadAction<ApiError>) {
       return state;
+    },
+
+    deleteAll(state) {
+      return state;
+    },
+    deleteAllError(state, action: PayloadAction<ApiError>) {
+      return state;
+    },
+    deleteAllSuccess(state) {
+      return initialState;
     },
   },
 });
@@ -130,22 +138,5 @@ function updateAll(state: TodosState, todosMap: TodosMap): { byIds: TodosMap; al
   };
 }
 
-export const {
-  addTodo,
-  addTodoError,
-  addTodoSuccess,
-  deleteTodo,
-  deleteTodoError,
-  deleteTodoSuccess,
-  loadTodos,
-  loadTodosError,
-  loadTodosSuccess,
-  toggleAll,
-  toggleAllError,
-  toggleAllSuccess,
-  toggleTodo,
-  toggleTodoError,
-  toggleTodoSuccess,
-} = todosSlice.actions;
-
+export const todosActions = todosSlice.actions;
 export const { reducer: todosReducer, name: todosFeatureName } = todosSlice;

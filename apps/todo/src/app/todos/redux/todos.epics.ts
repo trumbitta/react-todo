@@ -11,29 +11,14 @@ import { switchMap, map, catchError, pluck, withLatestFrom } from 'rxjs/operator
 
 // Redux
 import { AppState } from '../../redux/store';
-import {
-  loadTodos,
-  loadTodosSuccess,
-  loadTodosError,
-  addTodo,
-  addTodoSuccess,
-  addTodoError,
-  deleteTodo,
-  deleteTodoSuccess,
-  deleteTodoError,
-  toggleTodo,
-  toggleTodoSuccess,
-  toggleTodoError,
-  toggleAll,
-  toggleAllSuccess,
-  toggleAllError,
-} from './todos.slice';
+import { todosActions } from './todos.slice';
 
 // App Endpoints
 import {
   apiEndpointTodos,
   apiEndpointTodosSingle,
   apiEndpointTodosToggleAll,
+  apiEndpointTodosDeleteAll,
 } from '../../config/api.config';
 
 // App Libraries
@@ -41,18 +26,18 @@ import { TodosMap, ApiError, Todo } from '@todo/shared-models';
 
 export const loadTodosEpic = (action$: ActionsObservable<Action>) =>
   action$.pipe(
-    ofType(loadTodos.type),
+    ofType(todosActions.loadTodos.type),
     switchMap(() =>
       ajax.getJSON<TodosMap>(apiEndpointTodos).pipe(
-        map(todosMap => loadTodosSuccess<TodosMap>(todosMap)),
-        catchError(error => of(loadTodosError<ApiError>(error.response)))
+        map(todosMap => todosActions.loadTodosSuccess<TodosMap>(todosMap)),
+        catchError(error => of(todosActions.loadTodosError<ApiError>(error.response)))
       )
     )
   );
 
 export const addTodoEpic = (action$: ActionsObservable<Action>) =>
   action$.pipe(
-    ofType(addTodo.type),
+    ofType(todosActions.addTodo.type),
     pluck('payload'),
     switchMap((todo: Todo) =>
       ajax
@@ -61,20 +46,31 @@ export const addTodoEpic = (action$: ActionsObservable<Action>) =>
         })
         .pipe(
           map(ajaxResponse => ajaxResponse.response),
-          map((newTodo: Todo) => addTodoSuccess(newTodo)),
-          catchError(error => of(addTodoError<ApiError>(error.response)))
+          map((newTodo: Todo) => todosActions.addTodoSuccess(newTodo)),
+          catchError(error => of(todosActions.addTodoError<ApiError>(error.response)))
         )
     )
   );
 
 export const deleteTodoEpic = (action$: ActionsObservable<Action>) =>
   action$.pipe(
-    ofType(deleteTodo.type),
+    ofType(todosActions.deleteTodo.type),
     pluck('payload'),
     switchMap((id: string) =>
       ajax.delete(apiEndpointTodosSingle.replace(':id', id)).pipe(
-        map(() => deleteTodoSuccess(id)),
-        catchError(error => of(deleteTodoError<ApiError>(error.response)))
+        map(() => todosActions.deleteTodoSuccess(id)),
+        catchError(error => of(todosActions.deleteTodoError<ApiError>(error.response)))
+      )
+    )
+  );
+
+export const deleteAllEpic = (action$: ActionsObservable<Action>) =>
+  action$.pipe(
+    ofType(todosActions.deleteAll.type),
+    switchMap(() =>
+      ajax.post(apiEndpointTodosDeleteAll).pipe(
+        map(() => todosActions.deleteAllSuccess()),
+        catchError(error => of(todosActions.deleteAllError<ApiError>(error.response)))
       )
     )
   );
@@ -84,7 +80,7 @@ export const toggleTodoEpic = (
   state$: StateObservable<AppState>
 ) =>
   action$.pipe(
-    ofType(toggleTodo.type),
+    ofType(todosActions.toggleTodo.type),
     pluck('payload'),
     withLatestFrom(state$),
     map(([id, state]) => [id as string, state.todos.byIds[id as string]]),
@@ -95,20 +91,20 @@ export const toggleTodoEpic = (
         })
         .pipe(
           map(ajaxResponse => ajaxResponse.response),
-          map((todo: Todo) => toggleTodoSuccess(todo)),
-          catchError(error => of(toggleTodoError<ApiError<Todo>>(error.response)))
+          map((todo: Todo) => todosActions.toggleTodoSuccess(todo)),
+          catchError(error => of(todosActions.toggleTodoError<ApiError<Todo>>(error.response)))
         )
     )
   );
 
 export const toggleAllEpic = (action$: ActionsObservable<Action>) =>
   action$.pipe(
-    ofType(toggleAll.type),
+    ofType(todosActions.toggleAll.type),
     switchMap(() =>
       ajax.post(apiEndpointTodosToggleAll, { 'Content-Type': 'application/json' }).pipe(
         map(ajaxResponse => ajaxResponse.response),
-        map((todosMap: TodosMap) => toggleAllSuccess(todosMap)),
-        catchError(error => of(toggleAllError<ApiError>(error.response)))
+        map((todosMap: TodosMap) => todosActions.toggleAllSuccess(todosMap)),
+        catchError(error => of(todosActions.toggleAllError<ApiError>(error.response)))
       )
     )
   );
