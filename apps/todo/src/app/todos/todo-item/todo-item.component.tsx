@@ -2,6 +2,12 @@
 
 import React, { FunctionComponent } from 'react';
 
+// Third Parties
+import { Link } from 'react-router-dom';
+
+// App Configurations
+import { routePaths } from '../../config/app.config';
+
 // App Libraries
 import { Todo } from '@todo/shared-models';
 
@@ -19,13 +25,20 @@ const TodoItem_: FunctionComponent<TodoItemProps> = ({ todo, onToggleIsDone, onD
     onDeleteTodo(todo.id);
   };
 
+  const fragmentIsDone = <code onClick={toggleIsDone}>[{todo.isDone ? 'x' : ' '}]</code>;
+  const fragmentIdText = (
+    <Link to={`${routePaths.todos}/${todo.id}`}>
+      <code>{todo.id}</code> • {todo.text}
+    </Link>
+  );
+
   return (
-    <span onClick={toggleIsDone}>
-      [{todo.isDone ? 'x' : ' '}] <code>{todo.id}</code> • {todo.text}{' '}
+    <>
+      {fragmentIsDone} {fragmentIdText}{' '}
       <button type="button" onClick={deleteTodo}>
         Delete
       </button>
-    </span>
+    </>
   );
 };
 
