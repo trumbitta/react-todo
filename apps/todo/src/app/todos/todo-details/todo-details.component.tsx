@@ -2,20 +2,26 @@
 
 import React, { FunctionComponent } from 'react';
 
-// Third Parties
-import { useParams, Link } from 'react-router-dom';
+// App Libraries
+import { Todo } from '@todo/shared-models';
 
-// App Configurations
-import { routePaths } from '../../config/app.config';
-
-export const TodoDetails: FunctionComponent = () => {
-  const { id } = useParams();
-
+export const TodoDetails: FunctionComponent<TodoDetailsProps> = ({ todo }) => {
   return (
-    <>
-      <h1>Hello {id}</h1>
+    <article>
+      <h1>Todo details</h1>
 
-      <Link to={routePaths.todos}>Back to todos list</Link>
-    </>
+      <aside>
+        <p>id: {todo.id}</p>
+        <p>created: {todo.createdAt}</p>
+        <p>completed: {todo.isDone.toString()}</p>
+      </aside>
+      <p>
+        {todo.text} <small>last updated: {todo.updatedAt}</small>
+      </p>
+    </article>
   );
 };
+
+interface TodoDetailsProps {
+  todo: Todo;
+}

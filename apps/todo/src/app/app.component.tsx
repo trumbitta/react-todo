@@ -7,8 +7,8 @@ import styled from 'styled-components';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 // App Components
-import { Todos } from './todos/todos.component';
-import { TodoDetails } from './todos/todo-details/todo-details.component';
+import { PageTodos } from './pages/page-todos/page-todos.component';
+import { PageTodoDetails } from './pages/page-todo-details/page-todo-details.component';
 
 // App Configurations
 import { routePaths } from './config/app.config';
@@ -25,11 +25,11 @@ const MainStyled = styled.main`
 const fragmentRoutes = (
   <Switch>
     <Route path={`${routePaths.todos}/:id`}>
-      <TodoDetails />
+      <PageTodoDetails />
     </Route>
 
     <Route path={`${routePaths.todos}`}>
-      <Todos />
+      <PageTodos />
     </Route>
 
     <Route path="/">

@@ -4,16 +4,18 @@
 import { createSlice, PayloadAction } from 'redux-starter-kit';
 
 // App Libraries
-import { Todo, TodosMap, ApiError } from '@todo/shared-models';
+import { Todo, TodosMap, ApiError, emptyTodo } from '@todo/shared-models';
 
 export interface TodosState {
   byIds: TodosMap;
   allIds: string[];
+  selected: Todo;
 }
 
 const initialState: TodosState = {
   byIds: {},
   allIds: [],
+  selected: emptyTodo,
 };
 
 const todosSlice = createSlice({
@@ -21,7 +23,7 @@ const todosSlice = createSlice({
   initialState,
   reducers: {
     loadTodos(state) {
-      return state;
+      return { ...state, selected: initialState.selected };
     },
     loadTodosSuccess(state, action: PayloadAction<TodosMap>) {
       return updateAll(state, action.payload);
@@ -54,9 +56,8 @@ const todosSlice = createSlice({
         byIds: state.allIds.reduce(
           (byIds, id) => {
             byIds[id] = {
-              id,
+              ...state.byIds[id],
               isDone: !state.byIds[id].isDone,
-              text: state.byIds[id].text,
             };
 
             return byIds;
@@ -119,10 +120,20 @@ const todosSlice = createSlice({
     deleteAllSuccess(state) {
       return initialState;
     },
+
+    selectTodo(state, action: PayloadAction<string>) {
+      return state;
+    },
+    selectTodoSuccess(state, action: PayloadAction<Todo>) {
+      return { ...state, selected: action.payload };
+    },
+    selectTodoError(state, action: PayloadAction<ApiError>) {
+      return state;
+    },
   },
 });
 
-const doToggleTodo = (state: TodosState, id: string) => ({
+const doToggleTodo = (state: TodosState, id: string): TodosState => ({
   ...state,
   byIds: {
     ...state.byIds,
@@ -130,13 +141,13 @@ const doToggleTodo = (state: TodosState, id: string) => ({
   },
 });
 
-function updateAll(state: TodosState, todosMap: TodosMap): { byIds: TodosMap; allIds: string[] } {
+const updateAll = (state: TodosState, todosMap: TodosMap): TodosState => {
   return {
     ...state,
     byIds: todosMap,
     allIds: Object.keys(todosMap),
   };
-}
+};
 
 export const todosActions = todosSlice.actions;
 export const { reducer: todosReducer, name: todosFeatureName } = todosSlice;

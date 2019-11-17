@@ -35,6 +35,18 @@ export const loadTodosEpic = (action$: ActionsObservable<Action>) =>
     )
   );
 
+export const selectTodoEpic = (action$: ActionsObservable<Action>) =>
+  action$.pipe(
+    ofType(todosActions.selectTodo.type),
+    pluck('payload'),
+    switchMap((id: string) =>
+      ajax.getJSON<Todo>(apiEndpointTodosSingle.replace(':id', id)).pipe(
+        map(todo => todosActions.selectTodoSuccess(todo)),
+        catchError(error => of(todosActions.selectTodoError<ApiError>(error.response)))
+      )
+    )
+  );
+
 export const addTodoEpic = (action$: ActionsObservable<Action>) =>
   action$.pipe(
     ofType(todosActions.addTodo.type),
