@@ -13,6 +13,7 @@ import {
   toggleTodoEpic,
   toggleAllEpic,
   deleteAllEpic,
+  selectTodoEpic,
 } from '../todos/redux/todos.epics';
 import { todosReducer, todosFeatureName } from '../todos/redux/todos.slice';
 
@@ -25,7 +26,8 @@ const rootEpic = combineEpics(
   deleteTodoEpic,
   deleteAllEpic,
   toggleTodoEpic,
-  toggleAllEpic
+  toggleAllEpic,
+  selectTodoEpic
 );
 const epicMiddleware = createEpicMiddleware();
 

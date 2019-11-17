@@ -1,7 +1,14 @@
 /** @format */
 
 // Third Parties
-import { Entity, Column, PrimaryColumn, Generated } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryColumn,
+  Generated,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class TodosTodoEntity {
@@ -14,4 +21,10 @@ export class TodosTodoEntity {
 
   @Column()
   isDone: boolean;
+
+  @CreateDateColumn()
+  public createdAt: Date;
+
+  @UpdateDateColumn()
+  public updatedAt: Date;
 }

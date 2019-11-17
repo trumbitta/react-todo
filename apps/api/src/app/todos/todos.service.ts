@@ -36,6 +36,12 @@ export class TodosService {
     return this.toTodosMap(todos);
   }
 
+  async getTodoById(id: string): Promise<Todo> {
+    const todo = await this.todosTodoRepository.findOne(id);
+
+    return todo;
+  }
+
   async deleteTodo(id: string): Promise<DeleteResult> {
     const result = await this.todosTodoRepository.delete(id);
 

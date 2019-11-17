@@ -6,19 +6,19 @@ import React, { FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Redux
-import { selectTodosByIdsAsArray } from './redux/todos.selectors';
-import { todosActions } from './redux/todos.slice';
+import { selectTodosByIdsAsArray } from '../../todos/redux/todos.selectors';
+import { todosActions } from '../../todos/redux/todos.slice';
 
 // App Components
-import { TodosActionBar } from './todos-action-bar/todos-action-bar.component';
-import { TodoAdd, FormikSubmitProps } from './todo-add/todo-add.component';
-import { TodoItem } from './todo-item/todo-item.component';
+import { TodosActionBar } from '../../todos/todos-action-bar/todos-action-bar.component';
+import { TodoAdd, FormikSubmitProps } from '../../todos/todo-add/todo-add.component';
+import { TodoItem } from '../../todos/todo-item/todo-item.component';
 
 // App Libraries
-import { useMountEffect } from '@todo/utils';
 import { Todo } from '@todo/shared-models';
+import { useMountEffect } from '@todo/utils';
 
-export const Todos: FunctionComponent = () => {
+export const PageTodos: FunctionComponent = () => {
   const todos = useSelector(selectTodosByIdsAsArray);
 
   const dispatch = useDispatch();

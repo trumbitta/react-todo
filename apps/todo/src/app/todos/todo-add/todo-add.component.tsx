@@ -9,7 +9,7 @@ import { Formik, Field, Form, FormikHelpers } from 'formik';
 import { Todo } from '@todo/shared-models';
 
 const TodoAdd_: FunctionComponent<TodoAddProps> = ({ onAddTodo }) => {
-  const initialValues: Todo = { text: '' };
+  const initialValues: Todo = { id: null, createdAt: null, text: '', updatedAt: null };
 
   return (
     <Formik initialValues={initialValues} onSubmit={onAddTodo}>
@@ -21,10 +21,7 @@ const TodoAdd_: FunctionComponent<TodoAddProps> = ({ onAddTodo }) => {
   );
 };
 
-export type FormikSubmitProps<T> = (
-  values: T,
-  setSubmitting: FormikHelpers<T>
-) => void;
+export type FormikSubmitProps<T> = (values: T, setSubmitting: FormikHelpers<T>) => void;
 
 interface TodoAddProps {
   onAddTodo: FormikSubmitProps<Todo>;

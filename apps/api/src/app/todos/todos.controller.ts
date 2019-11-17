@@ -5,7 +5,7 @@ import { Controller, Get, Post, Body, Delete, Param, Put } from '@nestjs/common'
 // Third Parties
 import { DeleteResult } from 'typeorm';
 
-// App Models
+// App Libraries
 import { TodosMap, Todo } from '@todo/shared-models';
 
 // App Services
@@ -20,6 +20,13 @@ export class TodosController {
     const todos = await this.todosService.getTodos();
 
     return todos;
+  }
+
+  @Get(':id')
+  async getTodo(@Param('id') id: string): Promise<Todo> {
+    const todo = await this.todosService.getTodoById(id);
+
+    return todo;
   }
 
   @Post()
