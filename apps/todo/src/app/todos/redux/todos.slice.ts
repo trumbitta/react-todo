@@ -32,6 +32,12 @@ const todosSlice = createSlice({
       return state;
     },
 
+    reorderTodos(state, action: PayloadAction<TodosMap>) {
+      return updateAll(state, action.payload);
+    },
+
+    // TODO: success / error and epics
+
     toggleTodo(state, action: PayloadAction<string>) {
       return doToggleTodo(state, action.payload);
     },
@@ -53,6 +59,7 @@ const todosSlice = createSlice({
     toggleAll(state) {
       return {
         ...state,
+        // TODO: try using TodosMap.fromTodosArray for this
         byIds: state.allIds.reduce(
           (byIds, id) => {
             byIds[id] = {
