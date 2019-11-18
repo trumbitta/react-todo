@@ -63,4 +63,11 @@ export class TodosController {
 
     return deleted;
   }
+
+  @Post('rpc/update-all')
+  async updateAll(@Body() todos: TodosMap): Promise<TodosMap> {
+    const updated = await this.todosService.updateAll(todos);
+
+    return updated;
+  }
 }

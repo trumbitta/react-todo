@@ -16,4 +16,8 @@ export class TodosMap {
       {} as TodosMap
     );
   }
+
+  static toTodosArray(todosMap: TodosMap): Todo[] {
+    return Object.keys(todosMap).map(id => todosMap[id]);
+  }
 }

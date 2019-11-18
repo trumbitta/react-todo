@@ -33,7 +33,7 @@ export class TodosService {
   async getTodos(): Promise<TodosMap> {
     const todos = await this.todosTodoRepository.find();
 
-    return this.toTodosMap(todos);
+    return TodosMap.fromTodosArray(todos);
   }
 
   async getTodoById(id: string): Promise<Todo> {
@@ -64,7 +64,7 @@ export class TodosService {
       todos.map(todo => ({ ...todo, isDone: !todo.isDone }))
     );
 
-    return this.toTodosMap(updatedTodos);
+    return TodosMap.fromTodosArray(updatedTodos);
   }
 
   async deleteAll(): Promise<void> {
@@ -73,13 +73,10 @@ export class TodosService {
     return deleted;
   }
 
-  private toTodosMap(todos: TodosTodoEntity[]): TodosMap | PromiseLike<TodosMap> {
-    return todos.reduce(
-      (accumulator, current) => {
-        accumulator[current.id] = current;
-        return accumulator;
-      },
-      {} as TodosMap
-    );
+  async updateAll(todos: TodosMap): Promise<TodosMap> {
+    const todosArray: Todo[] = TodosMap.toTodosArray(todos);
+    const updated = await this.todosTodoRepository.save(todosArray);
+
+    return TodosMap.fromTodosArray(updated);
   }
 }

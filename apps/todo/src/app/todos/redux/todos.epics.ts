@@ -19,6 +19,7 @@ import {
   apiEndpointTodosSingle,
   apiEndpointTodosToggleAll,
   apiEndpointTodosDeleteAll,
+  apiEndpointTodosUpdateAll,
 } from '../../config/api.config';
 
 // App Libraries
@@ -113,10 +114,23 @@ export const toggleAllEpic = (action$: ActionsObservable<Action>) =>
   action$.pipe(
     ofType(todosActions.toggleAll.type),
     switchMap(() =>
-      ajax.post(apiEndpointTodosToggleAll, { 'Content-Type': 'application/json' }).pipe(
+      ajax.post(apiEndpointTodosToggleAll, null, { 'Content-Type': 'application/json' }).pipe(
         map(ajaxResponse => ajaxResponse.response),
         map((todosMap: TodosMap) => todosActions.toggleAllSuccess(todosMap)),
         catchError(error => of(todosActions.toggleAllError<ApiError>(error.response)))
+      )
+    )
+  );
+
+export const reorderTodosEpic = (action$: ActionsObservable<Action>) =>
+  action$.pipe(
+    ofType(todosActions.reorderTodos.type),
+    pluck('payload'),
+    switchMap((todosMap: TodosMap) =>
+      ajax.post(apiEndpointTodosUpdateAll, todosMap, { 'Content-Type': 'application/json' }).pipe(
+        map(ajaxResponse => ajaxResponse.response),
+        map((updated: TodosMap) => todosActions.reorderTodosSuccess(updated)),
+        catchError(error => of(todosActions.reorderTodosError<ApiError>(error.response)))
       )
     )
   );
