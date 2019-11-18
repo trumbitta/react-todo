@@ -6,10 +6,10 @@ import React, { FunctionComponent } from 'react';
 import { Formik, Field, Form, FormikHelpers } from 'formik';
 
 // App Libraries
-import { Todo } from '@todo/shared-models';
+import { Todo, emptyTodo } from '@todo/shared-models';
 
 const TodoAdd_: FunctionComponent<TodoAddProps> = ({ onAddTodo }) => {
-  const initialValues: Todo = { id: null, createdAt: null, text: '', updatedAt: null };
+  const initialValues: Todo = { ...emptyTodo, id: undefined };
 
   return (
     <Formik initialValues={initialValues} onSubmit={onAddTodo}>

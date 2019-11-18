@@ -4,6 +4,17 @@
 import { combineReducers } from 'redux';
 import { configureStore, getDefaultMiddleware } from 'redux-starter-kit';
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 // Redux
 import {
@@ -17,8 +28,13 @@ import {
 } from '../todos/redux/todos.epics';
 import { todosReducer, todosFeatureName } from '../todos/redux/todos.slice';
 
+const persistConfig = {
+  key: 'todo-react-redux',
+  storage,
+};
+
 const rootReducer = combineReducers({ [todosFeatureName]: todosReducer });
-export type AppState = ReturnType<typeof rootReducer>;
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const rootEpic = combineEpics(
   loadTodosEpic,
@@ -31,9 +47,18 @@ const rootEpic = combineEpics(
 );
 const epicMiddleware = createEpicMiddleware();
 
+export type AppState = ReturnType<typeof rootReducer>;
 export const store = configureStore({
-  reducer: rootReducer,
-  middleware: [...getDefaultMiddleware(), epicMiddleware],
+  reducer: persistedReducer,
+  middleware: [
+    ...getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+    epicMiddleware,
+  ],
 });
+export const persistor = persistStore(store);
 
 epicMiddleware.run(rootEpic);
