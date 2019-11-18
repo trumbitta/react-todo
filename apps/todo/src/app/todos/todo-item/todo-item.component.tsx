@@ -3,6 +3,7 @@
 import React, { FunctionComponent } from 'react';
 
 // Third Parties
+import { Draggable } from 'react-beautiful-dnd';
 import { Link } from 'react-router-dom';
 
 // App Configurations
@@ -11,7 +12,12 @@ import { routePaths } from '../../config/app.config';
 // App Libraries
 import { Todo } from '@todo/shared-models';
 
-const TodoItem_: FunctionComponent<TodoItemProps> = ({ todo, onToggleIsDone, onDeleteTodo }) => {
+const TodoItem_: FunctionComponent<TodoItemProps & { index: number }> = ({
+  todo,
+  onToggleIsDone,
+  onDeleteTodo,
+  index,
+}) => {
   const toggleIsDone = (event: React.MouseEvent<HTMLSpanElement>) => {
     event.preventDefault();
 
@@ -32,13 +38,24 @@ const TodoItem_: FunctionComponent<TodoItemProps> = ({ todo, onToggleIsDone, onD
     </Link>
   );
 
-  return (
+  const fragmentTodoItem = (
     <>
+      {' '}
       {fragmentIsDone} {fragmentIdText}{' '}
       <button type="button" onClick={deleteTodo}>
         Delete
       </button>
     </>
+  );
+
+  return (
+    <Draggable draggableId={todo.id} index={index}>
+      {provided => (
+        <span ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+          {fragmentTodoItem}
+        </span>
+      )}
+    </Draggable>
   );
 };
 
