@@ -24,10 +24,11 @@ export const PageTodos: FunctionComponent = () => {
   const dispatch = useDispatch();
   const dispatchToggleTodo = (id: string) => dispatch(todosActions.toggleTodo(id));
 
-  const dispatchAddTodo: FormikSubmitProps<Todo> = (todo: Todo, { setSubmitting }) => {
+  const dispatchAddTodo: FormikSubmitProps<Todo> = (todo: Todo, { setSubmitting, resetForm }) => {
     dispatch(todosActions.addTodo(todo));
 
     setSubmitting(false);
+    resetForm();
   };
 
   const dispatchDeleteTodo = (id: string) => dispatch(todosActions.deleteTodo(id));
