@@ -19,8 +19,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: install and test
-        run: |
-          yarn install
-          yarn run affected:e2e --base=origin/master
+        uses: bahmutov/npm-install@v1
+        run: yarn run affected:e2e --base=origin/master
         env:
           CI: true
