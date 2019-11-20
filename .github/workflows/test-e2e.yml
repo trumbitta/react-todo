@@ -21,6 +21,6 @@ jobs:
       - name: install and test
         run: |
           yarn install
-          yarn run affected:e2e
+          yarn run affected:e2e --base=origin/master
         env:
           CI: true
