@@ -26,11 +26,7 @@ const TodoItem_: FunctionComponent<TodoItemProps> = ({ todo, onToggleIsDone, onD
   };
 
   const fragmentIsDone = <code onClick={toggleIsDone}>[{todo.isDone ? 'x' : ' '}]</code>;
-  const fragmentIdText = (
-    <Link to={`${routePaths.todos}/${todo.id}`}>
-      <code>{todo.id}</code> • {todo.text}
-    </Link>
-  );
+  const fragmentIdText = <Link to={`${routePaths.todos}/${todo.id}`}>{todo.text}</Link>;
 
   return (
     <>
