@@ -21,6 +21,5 @@ jobs:
       - name: Yarn install
         uses: bahmutov/npm-install@v1
       - name: Test E2E
-          run: yarn run affected:e2e --base=origin/master
-        env:
-          CI: true
+        run: |
+          yarn run affected:e2e --base=origin/master
