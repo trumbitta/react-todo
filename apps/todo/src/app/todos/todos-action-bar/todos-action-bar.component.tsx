@@ -2,7 +2,11 @@
 
 import React, { FunctionComponent } from 'react';
 
-const TodosActionBar_: FunctionComponent<TodosActionBarProps> = ({ onToggleAll, onDeleteAll }) => {
+const TodosActionBar_: FunctionComponent<TodosActionBarProps> = ({
+  isDisabledButtons = false,
+  onToggleAll,
+  onDeleteAll,
+}) => {
   const toggleAll = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     event.stopPropagation();
@@ -19,11 +23,19 @@ const TodosActionBar_: FunctionComponent<TodosActionBarProps> = ({ onToggleAll, 
 
   return (
     <aside>
-      <button type="button" onClick={toggleAll}>
+      <button
+        type="button"
+        {...(isDisabledButtons ? { disabled: true } : null)}
+        onClick={toggleAll}
+      >
         Toggle all
       </button>
 
-      <button type="button" onClick={deleteAll}>
+      <button
+        type="button"
+        {...(isDisabledButtons ? { disabled: true } : null)}
+        onClick={deleteAll}
+      >
         Delete all
       </button>
     </aside>
@@ -31,6 +43,7 @@ const TodosActionBar_: FunctionComponent<TodosActionBarProps> = ({ onToggleAll, 
 };
 
 interface TodosActionBarProps {
+  isDisabledButtons?: boolean;
   onToggleAll: () => void;
   onDeleteAll: () => void;
 }

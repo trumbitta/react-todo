@@ -43,7 +43,11 @@ export const PageTodos: FunctionComponent = () => {
 
   return (
     <section>
-      <TodosActionBar onToggleAll={dispatchToggleAll} onDeleteAll={dispatchDeleteAll} />
+      <TodosActionBar
+        isDisabledButtons={!(todos instanceof Array) || todos.length === 0}
+        onToggleAll={dispatchToggleAll}
+        onDeleteAll={dispatchDeleteAll}
+      />
 
       <ul>
         {todos.map(todo => (
