@@ -21,7 +21,7 @@ const TodoAdd_: FunctionComponent<TodoAddProps> = ({ onAddTodo }) => {
   );
 };
 
-export type FormikSubmitProps<T> = (values: T, setSubmitting: FormikHelpers<T>) => void;
+export type FormikSubmitProps<T> = (values: T, formikHelpers: FormikHelpers<T>) => void;
 
 interface TodoAddProps {
   onAddTodo: FormikSubmitProps<Todo>;

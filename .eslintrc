@@ -25,7 +25,8 @@
         "depConstraints": [
           { "sourceTag": "shared", "onlyDependOnLibsWithTags": ["shared"] },
           { "sourceTag": "backend", "onlyDependOnLibsWithTags": ["shared", "backend"] },
-          { "sourceTag": "frontend", "onlyDependOnLibsWithTags": ["shared", "frontend", "utils"] }
+          { "sourceTag": "frontend", "onlyDependOnLibsWithTags": ["shared", "frontend", "utils"] },
+          { "sourceTag": "test", "onlyDependOnLibsWithTags": ["shared"] }
         ]
       }
     ]
