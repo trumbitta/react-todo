@@ -22,12 +22,21 @@ describe('Todos page', () => {
       page.getActionBar().should('exist');
     });
 
-    it('should load no list', () => {
-      page.getTodoList().should('have.length', 1);
-    });
-
     it('should show the "add todo" component', () => {
       page.getAddTodoComponent().should('exist');
+    });
+
+    it('should have disabled buttons in the action bar', () => {
+      page
+        .getActionBar()
+        .find('button')
+        .each(button => {
+          cy.wrap(button).should('be.disabled');
+        });
+    });
+
+    it('should load no list', () => {
+      page.getTodoList().should('have.length', 1);
     });
 
     context('When adding todos', () => {
