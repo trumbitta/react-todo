@@ -1,7 +1,7 @@
 {
-  "id": "newnewnew",
-  "text": "Foo barzzzz",
-  "createdAt": "2019-12-23T18:25:43.511Z",
-  "updatedAt": "2019-12-23T19:25:43.511Z",
+  "id": "123-abcd-456",
+  "text": "Foo bars",
+  "createdAt": "2019-04-23T18:25:43.511Z",
+  "updatedAt": "2019-04-23T19:25:43.511Z",
   "isDone": false
 }
