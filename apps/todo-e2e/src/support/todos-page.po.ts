@@ -19,6 +19,10 @@ export class TodosPage {
     return cy.get('ul li');
   }
 
+  getFirstTodo() {
+    return this.getTodoList().first();
+  }
+
   getAddInput() {
     return cy.get('input[type="text"]');
   }
@@ -29,6 +33,10 @@ export class TodosPage {
 
   getAddTodoComponent() {
     return cy.get('form');
+  }
+
+  getLinkToDetailsPage() {
+    return this.getFirstTodo().find('a');
   }
 
   addTodo(text: string = 'Foo bar baz') {
@@ -43,10 +51,30 @@ export class TodosPage {
     cy.fixture('todo').then((todo: Todo) => {
       cy.route('DELETE', `http://localhost:3333/api/v1/todos/${todo.id}`, '').as('deleteTodo');
 
-      return this.getTodoList()
-        .first()
+      return this.getFirstTodo()
         .find('button')
         .click();
     });
+  }
+
+  toggleFirstTodo() {
+    cy.fixture('todo').then((todo: Todo) => {
+      cy.route('PUT', `http://localhost:3333/api/v1/todos/${todo.id}`, {
+        ...todo,
+        isDone: !todo.isDone,
+      } as Todo).as('toggleTodo');
+
+      return this.getFirstTodo()
+        .find('code')
+        .click();
+    });
+  }
+
+  goToDetailsPage() {
+    cy.fixture('todo').then((todo: Todo) => {
+      cy.route('GET', `http://localhost:3333/api/v1/todos/${todo.id}`, todo);
+    });
+
+    this.getLinkToDetailsPage().click();
   }
 }

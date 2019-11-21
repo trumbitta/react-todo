@@ -1,5 +1,8 @@
 /** @format */
 
+// App Libraries
+import { Todo } from '@todo/shared-models';
+
 // App Page Objects
 import { TodosPage } from '../support/todos-page.po';
 
@@ -51,13 +54,36 @@ describe('Todos page', () => {
       page.getTodoList().should('have.length', 3);
     });
 
-    it.only('should be able to delete a todo', () => {
+    it('should be able to delete a todo', () => {
       page.getTodoList().should('have.length', 3);
 
       page.deleteFirstTodo();
 
       cy.wait('@deleteTodo');
       page.getTodoList().should('have.length', 2);
+    });
+
+    it('should be able to toggle a todo', () => {
+      page
+        .getFirstTodo()
+        .find('code')
+        .as('todoToggler')
+        .should('not.contain', 'x');
+
+      page.toggleFirstTodo();
+
+      cy.wait('@toggleTodo');
+      cy.get('@todoToggler').should('contain', 'x');
+    });
+
+    it('should have a link to go to Todo details page', () => {
+      page.getLinkToDetailsPage().should('exist');
+
+      page.goToDetailsPage();
+
+      cy.fixture('todo').then((todo: Todo) => {
+        cy.url().should('be', `http://localhost:4200/todos/${todo.id}`);
+      });
     });
   });
 });
