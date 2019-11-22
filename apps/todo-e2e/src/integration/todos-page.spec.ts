@@ -22,6 +22,10 @@ describe('Todos page', () => {
       page.getActionBar().should('exist');
     });
 
+    it('should load no list', () => {
+      page.getTodoList().should('have.length', 0);
+    });
+
     it('should show the "add todo" component', () => {
       page.getAddTodoComponent().should('exist');
     });
@@ -36,7 +40,7 @@ describe('Todos page', () => {
     });
 
     it('should load no list', () => {
-      page.getTodoList().should('have.length', 1);
+      page.getTodoList().should('have.length', 0);
     });
 
     context('When adding todos', () => {
@@ -45,7 +49,7 @@ describe('Todos page', () => {
       });
 
       it('should be able to add a todo', () => {
-        page.getTodoList().should('have.length', 2);
+        page.getTodoList().should('have.length', 1);
       });
 
       it('should clear the input after adding a todo', () => {
@@ -60,16 +64,16 @@ describe('Todos page', () => {
     });
 
     it('should show a full list of todos', () => {
-      page.getTodoList().should('have.length', 3);
+      page.getTodoList().should('have.length', 2);
     });
 
     it('should be able to delete a todo', () => {
-      page.getTodoList().should('have.length', 3);
+      page.getTodoList().should('have.length', 2);
 
       page.deleteFirstTodo();
 
       cy.wait('@deleteTodo');
-      page.getTodoList().should('have.length', 2);
+      page.getTodoList().should('have.length', 1);
     });
 
     it('should be able to toggle a todo', () => {
@@ -93,6 +97,39 @@ describe('Todos page', () => {
       cy.fixture('todo').then((todo: Todo) => {
         cy.url().should('be', `http://localhost:4200/todos/${todo.id}`);
       });
+    });
+
+    it('should be able to toggle all the todos', () => {
+      page.getTodoList().each(todoItem => {
+        cy.wrap(todoItem)
+          .find('code')
+          .should('not.contain', 'x');
+      });
+
+      page.toggleAll();
+
+      cy.wait('@toggleAll');
+      page.getTodoList().each(todoItem => {
+        cy.wrap(todoItem)
+          .find('code')
+          .should('contain', 'x');
+      });
+    });
+
+    it('should be able to delete all the todos', () => {
+      page.getTodoList().should('have.length.greaterThan', 0);
+
+      page.deleteAll();
+
+      cy.wait('@deleteAll');
+      page.getTodoList().should('have.length', 0);
+
+      page
+        .getActionBar()
+        .find('button')
+        .each(button => {
+          cy.wrap(button).should('be.disabled');
+        });
     });
   });
 });

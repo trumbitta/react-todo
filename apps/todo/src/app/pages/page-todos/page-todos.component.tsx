@@ -59,10 +59,8 @@ export const PageTodos: FunctionComponent = () => {
             />
           </li>
         ))}
-        <li>
-          <TodoAdd onAddTodo={dispatchAddTodo} />
-        </li>
       </ul>
+      <TodoAdd onAddTodo={dispatchAddTodo} />
     </section>
   );
 };
