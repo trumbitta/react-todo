@@ -1,7 +1,7 @@
 /** @format */
 
 // Third Parties
-import { createSlice, PayloadAction } from 'redux-starter-kit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // App Libraries
 import { Todo, TodosMap, ApiError, emptyTodo } from '@todo/shared-models';

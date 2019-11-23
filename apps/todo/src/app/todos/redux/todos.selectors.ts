@@ -1,7 +1,7 @@
 /** @format */
 
 // Third Parties
-import { createSelector } from 'redux-starter-kit';
+import { createSelector } from '@reduxjs/toolkit';
 
 // Redux
 import { AppState } from '../../redux/store';
