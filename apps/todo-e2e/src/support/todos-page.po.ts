@@ -1,7 +1,7 @@
 /** @format */
 
 // App Libraries
-import { Todo } from '@todo/shared-models';
+import { Todo, TodosMap } from '@todo/shared-models';
 
 export class TodosPage {
   seedAndVisit(data: Todo[] | string = 'fixture:todos.json') {
@@ -57,6 +57,17 @@ export class TodosPage {
     });
   }
 
+  deleteAll() {
+    cy.fixture('todos').then((todosMap: TodosMap) => {
+      cy.route('POST', `http://localhost:3333/api/v1/todos/rpc/delete-all`, {}).as('deleteAll');
+
+      return this.getActionBar()
+        .find('button')
+        .contains('Delete all')
+        .click();
+    });
+  }
+
   toggleFirstTodo() {
     cy.fixture('todo').then((todo: Todo) => {
       cy.route('PUT', `http://localhost:3333/api/v1/todos/${todo.id}`, {
@@ -66,6 +77,31 @@ export class TodosPage {
 
       return this.getFirstTodo()
         .find('code')
+        .click();
+    });
+  }
+
+  toggleAll() {
+    cy.fixture('todos').then((todosMap: TodosMap) => {
+      cy.route(
+        'POST',
+        `http://localhost:3333/api/v1/todos/rpc/toggle-all`,
+        Object.keys(todosMap).reduce(
+          (map, id) => {
+            map[id] = {
+              ...todosMap[id],
+              isDone: !todosMap[id].isDone,
+            };
+
+            return map;
+          },
+          {} as TodosMap
+        )
+      ).as('toggleAll');
+
+      return this.getActionBar()
+        .find('button')
+        .contains('Toggle all')
         .click();
     });
   }
