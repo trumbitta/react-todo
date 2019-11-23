@@ -53,17 +53,14 @@ const todosSlice = createSlice({
     toggleAll(state) {
       return {
         ...state,
-        byIds: state.allIds.reduce(
-          (byIds, id) => {
-            byIds[id] = {
-              ...state.byIds[id],
-              isDone: !state.byIds[id].isDone,
-            };
+        byIds: state.allIds.reduce((byIds, id) => {
+          byIds[id] = {
+            ...state.byIds[id],
+            isDone: !state.byIds[id].isDone,
+          };
 
-            return byIds;
-          },
-          {} as TodosMap
-        ),
+          return byIds;
+        }, {} as TodosMap),
       };
     },
     toggleAllSuccess(state, action: PayloadAction<TodosMap>) {

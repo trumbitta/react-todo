@@ -33,7 +33,4 @@ export const selectTodosSelected = createSelector<AppState, TodosState, Todo>(
 );
 
 export const makeSelectTodosTodoById = (id: string) =>
-  createSelector<AppState, TodosMap, Todo>(
-    [selectTodosByIds],
-    todos => todos[id]
-  );
+  createSelector<AppState, TodosMap, Todo>([selectTodosByIds], todos => todos[id]);
