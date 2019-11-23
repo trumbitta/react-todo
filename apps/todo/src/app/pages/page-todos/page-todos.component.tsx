@@ -24,10 +24,11 @@ export const PageTodos: FunctionComponent = () => {
   const dispatch = useDispatch();
   const dispatchToggleTodo = (id: string) => dispatch(todosActions.toggleTodo(id));
 
-  const dispatchAddTodo: FormikSubmitProps<Todo> = (todo: Todo, { setSubmitting }) => {
+  const dispatchAddTodo: FormikSubmitProps<Todo> = (todo: Todo, { setSubmitting, resetForm }) => {
     dispatch(todosActions.addTodo(todo));
 
     setSubmitting(false);
+    resetForm();
   };
 
   const dispatchDeleteTodo = (id: string) => dispatch(todosActions.deleteTodo(id));
@@ -42,7 +43,11 @@ export const PageTodos: FunctionComponent = () => {
 
   return (
     <section>
-      <TodosActionBar onToggleAll={dispatchToggleAll} onDeleteAll={dispatchDeleteAll} />
+      <TodosActionBar
+        isDisabledButtons={!(todos instanceof Array) || todos.length === 0}
+        onToggleAll={dispatchToggleAll}
+        onDeleteAll={dispatchDeleteAll}
+      />
 
       <ul>
         {todos.map(todo => (
@@ -54,10 +59,8 @@ export const PageTodos: FunctionComponent = () => {
             />
           </li>
         ))}
-        <li>
-          <TodoAdd onAddTodo={dispatchAddTodo} />
-        </li>
       </ul>
+      <TodoAdd onAddTodo={dispatchAddTodo} />
     </section>
   );
 };

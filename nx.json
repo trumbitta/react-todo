@@ -14,7 +14,9 @@
       ]
     },
     "todo-e2e": {
-      "tags": []
+      "tags": [
+        "test"
+      ]
     },
     "api": {
       "tags": [

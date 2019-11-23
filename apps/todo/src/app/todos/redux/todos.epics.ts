@@ -7,7 +7,7 @@ import { ofType, ActionsObservable, StateObservable } from 'redux-observable';
 // RxJS
 import { of } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
-import { switchMap, map, catchError, pluck, withLatestFrom } from 'rxjs/operators';
+import { switchMap, map, catchError, pluck, withLatestFrom, tap } from 'rxjs/operators';
 
 // Redux
 import { AppState } from '../../redux/store';

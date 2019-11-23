@@ -1,7 +1,7 @@
 /** @format */
 
 // Third Parties
-import { createSelector } from 'redux-starter-kit';
+import { createSelector } from '@reduxjs/toolkit';
 
 // Redux
 import { AppState } from '../../redux/store';
@@ -33,7 +33,4 @@ export const selectTodosSelected = createSelector<AppState, TodosState, Todo>(
 );
 
 export const makeSelectTodosTodoById = (id: string) =>
-  createSelector<AppState, TodosMap, Todo>(
-    [selectTodosByIds],
-    todos => todos[id]
-  );
+  createSelector<AppState, TodosMap, Todo>([selectTodosByIds], todos => todos[id]);

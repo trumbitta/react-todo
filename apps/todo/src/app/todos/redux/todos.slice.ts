@@ -1,7 +1,7 @@
 /** @format */
 
 // Third Parties
-import { createSlice, PayloadAction } from 'redux-starter-kit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // App Libraries
 import { Todo, TodosMap, ApiError, emptyTodo } from '@todo/shared-models';
@@ -53,17 +53,14 @@ const todosSlice = createSlice({
     toggleAll(state) {
       return {
         ...state,
-        byIds: state.allIds.reduce(
-          (byIds, id) => {
-            byIds[id] = {
-              ...state.byIds[id],
-              isDone: !state.byIds[id].isDone,
-            };
+        byIds: state.allIds.reduce((byIds, id) => {
+          byIds[id] = {
+            ...state.byIds[id],
+            isDone: !state.byIds[id].isDone,
+          };
 
-            return byIds;
-          },
-          {} as TodosMap
-        ),
+          return byIds;
+        }, {} as TodosMap),
       };
     },
     toggleAllSuccess(state, action: PayloadAction<TodosMap>) {

@@ -2,7 +2,7 @@
 
 // Third Parties
 import { combineReducers } from 'redux';
-import { configureStore, getDefaultMiddleware } from 'redux-starter-kit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
 import {
   persistStore,
