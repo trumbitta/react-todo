@@ -91,7 +91,7 @@ describe('Todos page', () => {
       page.goToDetailsPage();
 
       cy.fixture('todo').then((todo: Todo) => {
-        cy.url().should('be', `http://localhost:4200/todos/${todo.id}`);
+        cy.url().should('eq', `http://localhost:4200/todos/${todo.id}`);
       });
     });
   });
