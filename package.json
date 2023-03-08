@@ -27,7 +27,7 @@
   "private": true,
   "dependencies": {
     "@nestjs/common": "^6.10.1",
-    "@nestjs/core": "^6.10.1",
+    "@nestjs/core": "^9.0.5",
     "@nestjs/platform-express": "^6.10.1",
     "@nestjs/typeorm": "^6.2.0",
     "@reduxjs/toolkit": "^1.0.4",
